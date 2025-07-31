@@ -10,18 +10,26 @@
   },
   "dependencies": {
     "@prisma/client": "^6.13.0",
+    "bcryptjs": "^3.0.2",
     "next": "15.4.5",
-    "prisma": "^6.13.0",
+    "next-auth": "^5.0.0-beta.29",
+    "next-intl": "^4.3.4",
+    "nodemailer": "^6.10.1",
+    "pdfkit": "^0.17.1",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.17",
+    "@types/pdfkit": "^0.17.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.4.5",
+    "prisma": "^6.13.0",
     "typescript": "^5"
   }
 }

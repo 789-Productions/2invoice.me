@@ -1,0 +1,14 @@
+{
+  "appName": "Facturador",
+  "invoice": "Factura",
+  "send": "Enviar",
+  "total": "Total",
+  "signIn": "Iniciar sesión",
+  "email": "Correo",
+  "password": "Contraseña",
+  "createInvoice": "Crear Factura",
+  "dashboard": "Panel",
+  "logout": "Cerrar sesión",
+  "login": "Iniciar sesión",
+  "publicLink": "Enlace público"
+}

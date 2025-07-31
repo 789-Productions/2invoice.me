@@ -1,0 +1,14 @@
+{
+  "appName": "Invoicer",
+  "invoice": "Invoice",
+  "send": "Send",
+  "total": "Total",
+  "signIn": "Sign in",
+  "email": "Email",
+  "password": "Password",
+  "createInvoice": "Create Invoice",
+  "dashboard": "Dashboard",
+  "logout": "Log out",
+  "login": "Log in",
+  "publicLink": "Public link"
+}
