@@ -1,0 +1,22 @@
+name: "📚 Documentation Task"
+description: "README updates, architecture diagrams, run-books."
+title: "[DOCS] <brief description>"
+labels: ["documentation"]
+
+body:
+  - type: input
+    id: page
+    attributes:
+      label: "Page / Section to update"
+      description: "Path or URL of the doc."
+      placeholder: "docs/getting-started.md"
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_change
+    attributes:
+      label: "Proposed Change"
+      placeholder: "Describe the update."
+    validations:
+      required: true

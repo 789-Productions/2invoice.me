@@ -1,0 +1,31 @@
+name: "🧪 QA / Test Task"
+description: "Test-case authoring, exploratory testing, bug verification."
+title: "[QA] <brief description>"
+labels: ["qa"]
+
+body:
+  - type: textarea
+    id: feature_under_test
+    attributes:
+      label: "Scenario / Feature under test"
+      description: "Link to PR, branch, or story."
+      placeholder: "E.g., /pull/123  •  Feature/login-flow"
+    validations:
+      required: true
+
+  - type: textarea
+    id: test_steps
+    attributes:
+      label: "Test Steps"
+      description: "Step-by-step instructions."
+      placeholder: |
+        1. …
+        2. …
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_result
+    attributes:
+      label: "Expected Result"
+      placeholder: "What should happen?"

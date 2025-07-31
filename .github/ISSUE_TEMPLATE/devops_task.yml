@@ -1,0 +1,30 @@
+name: "🛠️ Dev Ops Task"
+description: "CI/CD, IaC, monitoring, scripting—anything infrastructure."
+title: "[DEVOPS] <brief description>"
+labels: ["devops"]
+
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: "Objective"
+      description: "High-level outcome."
+      placeholder: "E.g., Add staging environment to Terraform"
+    validations:
+      required: true
+
+  - type: textarea
+    id: definition_of_done
+    attributes:
+      label: "Definition of Done"
+      placeholder: |
+        - [ ] …
+        - [ ] …
+    validations:
+      required: true
+
+  - type: textarea
+    id: rollout
+    attributes:
+      label: "Roll-out / Back-out Plan"
+      description: "How will we deploy and, if needed, revert?"
