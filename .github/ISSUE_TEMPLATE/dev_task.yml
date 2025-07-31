@@ -1,0 +1,33 @@
+name: "👩‍💻 Development Task"
+description: "New feature work, refactors, or code-cleanup tasks."
+title: "[DEV] <brief description>"
+labels: ["dev", "triage"]
+
+
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: "Goal"
+      description: "What are we trying to achieve? Link to story/epic if relevant."
+      placeholder: "E.g., Implement OAuth2 login flow"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: "Acceptance Criteria"
+      description: "List the DONE conditions."
+      placeholder: |
+        - [ ] …
+        - [ ] …
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: "Additional Context"
+      description: "Logs, screenshots, design links, related issues."
+      placeholder: "Add any extra details here."
