@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: invoicer
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app
+    ports: ["3306:3306"]
+    command: ["mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_0900_ai_ci"]
+    volumes:
+      - dbdata:/var/lib/mysql
+
+  mailhog:
+    image: mailhog/mailhog
+    ports: ["8025:8025", "1025:1025"]
+
+  web:
+    build: .
+    environment:
+      DATABASE_URL: mysql://app:app@db:3306/invoicer
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: dev-secret-change-me
+      BASE_URL: http://localhost:3000
+      SMTP_HOST: mailhog
+      SMTP_PORT: 1025
+      SMTP_USER: ""
+      SMTP_PASS: ""
+      NODE_ENV: development
+    ports: ["3000:3000"]
+    depends_on: [db, mailhog]
+
+volumes:
+  dbdata:
