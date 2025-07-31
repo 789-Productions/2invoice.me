@@ -1,7 +1,7 @@
 name: "🧪 QA / Test Task"
 description: "Test-case authoring, exploratory testing, bug verification."
 title: "[QA] <brief description>"
-labels: ["qa"]
+labels: ["QA Task"]
 
 body:
   - type: textarea

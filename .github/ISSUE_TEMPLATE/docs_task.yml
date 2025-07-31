@@ -1,7 +1,7 @@
 name: "📚 Documentation Task"
 description: "README updates, architecture diagrams, run-books."
 title: "[DOCS] <brief description>"
-labels: ["documentation"]
+labels: ["Documentation Task"]
 
 body:
   - type: input

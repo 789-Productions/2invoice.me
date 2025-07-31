@@ -1,7 +1,7 @@
 name: "👩‍💻 Development Task"
 description: "New feature work, refactors, or code-cleanup tasks."
 title: "[DEV] <brief description>"
-labels: ["dev"]
+labels: ["Developer Task"]
 
 
 body:

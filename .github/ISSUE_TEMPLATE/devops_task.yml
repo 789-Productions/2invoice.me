@@ -1,7 +1,7 @@
 name: "🛠️ Dev Ops Task"
 description: "CI/CD, IaC, monitoring, scripting—anything infrastructure."
 title: "[DEVOPS] <brief description>"
-labels: ["devops"]
+labels: ["DevOps Task"]
 
 body:
   - type: textarea
