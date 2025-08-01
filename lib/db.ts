@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
+// use type to declare global variable for PrismaClient
+// to avoid creating multiple instances in development mode
 const globalForPrisma = global as unknown as { prisma?: PrismaClient };
 
 export const prisma =
