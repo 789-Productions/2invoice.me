@@ -1,0 +1,22 @@
+name: Auto-add new issues to project board
+
+on:
+  issues:
+    types: [opened]
+
+# Start global jobs with *no* write access
+permissions: {}
+
+jobs:
+  add-to-project:
+    permissions:
+      issues: write
+      contents: write
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add new Issue to project
+        uses: actions/add-to-project@v1.0.2
+        with:
+          project-url: ${{ vars.PROJECT_URL || env.PROJECT_URL }}
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }} # PAT w/ repo+project
