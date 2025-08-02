@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "./generated/prisma"; // Adjust the import path as necessary
 
 // use type to declare global variable for PrismaClient
 // to avoid creating multiple instances in development mode
