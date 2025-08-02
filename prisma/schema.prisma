@@ -1,5 +1,11 @@
-datasource db { provider = "mysql"; url = env("DATABASE_URL") }
-generator client { provider = "prisma-client-js" }
+datasource db { 
+  provider = "mysql"
+  url = env("DATABASE_URL") 
+}
+generator client { 
+  provider = "prisma-client-js"
+  output = "../lib/generated/prisma"
+}
 
 model User {
   id            String    @id @default(cuid())
@@ -74,6 +80,9 @@ model Invoice {
   client     Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
   items      InvoiceItem[]
   totalCents Int
+
+  @@index([userId])
+  @@index([clientId])
 }
 
 model InvoiceItem {
@@ -84,6 +93,3 @@ model InvoiceItem {
   unitCents   Int
   invoice     Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
 }
-
-@@index([userId])
-@@index([clientId])
