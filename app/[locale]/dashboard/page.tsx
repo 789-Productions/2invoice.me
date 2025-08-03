@@ -6,16 +6,18 @@ import { redirect } from "next/navigation";
 export default async function DashboardPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   const session = await auth();
-  if (!session?.user?.id) redirect(`/${params.locale}/auth/signin`);
-
+  if (!session?.userId) {
+    redirect(`/${locale}/auth/signin`);
+  }
   const clients = await prisma.client.findMany({
-    where: { userId: session.user.id as string },
+    where: { userId: session.userId },
   });
   const invoices = await prisma.invoice.findMany({
-    where: { userId: session.user.id as string },
+    where: { userId: session.userId },
     include: { client: true },
     orderBy: { createdAt: "desc" },
     take: 10,
@@ -100,7 +102,7 @@ export default async function DashboardPage({
                 {(inv.totalCents / 100).toFixed(2)} {inv.currency}
                 {" | "}
                 <a
-                  href={`${baseUrl}/${params.locale}/invoices/${inv.token}`}
+                  href={`${baseUrl}/${locale}/invoices/${inv.token}`}
                   target="_blank"
                 >
                   Public link
