@@ -1,51 +1,34 @@
 "use client";
-
-import { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter, useParams } from "next/navigation";
+import { useFormState, useFormStatus } from "react-dom";
+import { authenticate } from "./actions";
+import { useParams } from "next/navigation";
 
 export default function SignInPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
+  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
   const params = useParams<{ locale: string }>();
   const locale = params?.locale || "en";
-
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError(null);
-    const res = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
-    if (res?.ok) router.push(`/${locale}/dashboard`);
-    else setError(res?.error || "Invalid credentials");
-  }
-
   return (
     <main>
       <h1>Sign in</h1>
       <form
-        onSubmit={onSubmit}
+        action={dispatch}
         style={{ display: "grid", gap: 8, maxWidth: 320 }}
       >
-        <input
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Sign in</button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        <input name="email" placeholder="Email" />
+        <input name="password" type="password" placeholder="Password" />
+        <input type="hidden" name="locale" value={locale} />
+        <LoginButton />
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       </form>
-      <p>Seed the demo user first (see README) or add sign-up.</p>
     </main>
+  );
+}
+
+function LoginButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button type="submit" aria-disabled={pending}>
+      {pending ? "Signing in..." : "Sign in"}
+    </button>
   );
 }
