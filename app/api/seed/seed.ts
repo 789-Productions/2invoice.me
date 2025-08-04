@@ -23,6 +23,7 @@ export async function seedDatabase(FormData: FormData) {
         name: 'ACME Corp',
         email: 'billing@acme.test',
       },
+      
     });
 
     console.log('Database seeded successfully!');
