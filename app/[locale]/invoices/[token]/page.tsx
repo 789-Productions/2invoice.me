@@ -5,21 +5,19 @@ import { notFound } from "next/navigation";
 export default async function InvoicePublicPage({
   params,
 }: {
-  params: { token: string; locale: string };
+  params: Promise<{ token: string; locale: string }>;
 }) {
+  const { token, locale } = await params;
   const invoice = await prisma.invoice.findUnique({
-    where: { token: params.token },
+    where: { token: token },
     include: { client: true, items: true },
   });
   if (!invoice) return notFound();
 
-  const fmt = new Intl.NumberFormat(
-    params.locale === "es" ? "es-ES" : "en-US",
-    {
-      style: "currency",
-      currency: invoice.currency,
-    }
-  );
+  const fmt = new Intl.NumberFormat(locale === "es" ? "es-ES" : "en-US", {
+    style: "currency",
+    currency: invoice.currency,
+  });
 
   return (
     <main>
@@ -32,12 +30,19 @@ export default async function InvoicePublicPage({
         {invoice.dueDate.toDateString()}
       </p>
       <ul>
-        {invoice.items.map((it) => (
-          <li key={it.id}>
-            {it.description} × {it.quantity} —{" "}
-            {fmt.format((it.unitCents * it.quantity) / 100)}
-          </li>
-        ))}
+        {invoice.items.map(
+          (it: {
+            id: number;
+            description: string;
+            quantity: number;
+            unitCents: number;
+          }) => (
+            <li key={it.id}>
+              {it.description} × {it.quantity} —{" "}
+              {fmt.format((it.unitCents * it.quantity) / 100)}
+            </li>
+          )
+        )}
       </ul>
       <h2>Total: {fmt.format(invoice.totalCents / 100)}</h2>
     </main>

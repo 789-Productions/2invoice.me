@@ -6,7 +6,7 @@ import { auth } from "@/lib/auth";
 
 export async function createInvoiceAction(prevState: any, formData: FormData) {
   const session = await auth();
-  if (!session?.user?.id) return { ok: false, error: "Unauthorized" };
+  if (!session?.userId) return { ok: false, error: "Unauthorized" };
 
   const clientId = Number(formData.get("clientId"));
   const number = String(formData.get("number"));
@@ -22,7 +22,7 @@ export async function createInvoiceAction(prevState: any, formData: FormData) {
 
   await prisma.invoice.create({
     data: {
-      userId: session.user.id as string,
+      userId: session.userId as string,
       clientId,
       number,
       token,
