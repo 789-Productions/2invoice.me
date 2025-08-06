@@ -18,6 +18,7 @@ export default function SignInPage() {
         <input name="password" type="password" placeholder="Password" />
         <input type="hidden" name="locale" value={locale} />
         <LoginButton />
+        <RegisterButton locale={locale} />
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       </form>
     </main>
@@ -29,6 +30,16 @@ function LoginButton() {
   return (
     <button type="submit" aria-disabled={pending}>
       {pending ? "Signing in..." : "Sign in"}
+    </button>
+  );
+}
+function RegisterButton({ locale = "en" }: { locale?: string }) {
+  return (
+    <button
+      type="button"
+      onClick={() => (window.location.href = "/" + locale + "/auth/signup")}
+    >
+      Register
     </button>
   );
 }

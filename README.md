@@ -1,6 +1,6 @@
 # 2invoice.me
 
-HOW TO SETUP 2invoice.me DEMO FROM SCRATCH
+## HOW TO SETUP 2invoice.me DEMO FROM SCRATCH
 
 1. First type "run git clone https://github.com/789-Productions/2invoice.me.git" on your terminal in your folder of choice. Make sure you are in the folder of the repository (should be the folder with the README file).
 
