@@ -36,3 +36,22 @@ export async function createInvoiceAction(prevState: any, formData: FormData) {
 
   return { ok: true };
 }
+
+export async function deleteInvoiceAction(prevState: any, formData: FormData) {
+  const session = await auth();
+  if (!session?.userId) return { ok: false, error: "Unauthorized" };
+
+  const id = Number(formData.get("id"));
+  console.log("Deleting invoice with ID:", id);
+  if (!id) return { ok: false, error: "Invalid invoice ID" };
+
+  try {
+    await prisma.invoice.delete({
+      where: { id }
+    });
+    return { ok: true };
+  } catch (error) {
+    console.log("Failed to delete invoice:", error);
+    return { ok: false, error: "Failed to delete invoice" };
+  }
+}

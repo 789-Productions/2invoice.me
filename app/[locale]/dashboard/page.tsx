@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
-import { createInvoiceAction } from "./actions";
+import { createInvoiceAction, deleteInvoiceAction } from "./actions";
 import { redirect } from "next/navigation";
 
 export default async function DashboardPage({
@@ -24,9 +24,13 @@ export default async function DashboardPage({
   });
 
   const baseUrl = process.env.BASE_URL || "http://localhost:3000";
-  async function create(formData: FormData) {
+  async function createInvoice(formData: FormData) {
     "use server";
     await createInvoiceAction({}, formData);
+  }
+  async function deleteInvoice(formData: FormData) {
+    "use server";
+    await deleteInvoiceAction({}, formData);
   }
 
   return (
@@ -36,7 +40,7 @@ export default async function DashboardPage({
       <section style={{ marginTop: 16 }}>
         <h2>Create invoice</h2>
         <form
-          action={create}
+          action={createInvoice}
           style={{ display: "grid", gap: 8, maxWidth: 600 }}
         >
           <label>
@@ -105,10 +109,10 @@ export default async function DashboardPage({
                   href={`${baseUrl}/${locale}/invoices/${inv.token}`}
                   target="_blank"
                 >
-                  Public link
+                  Html
                 </a>
                 {" | "}
-                <a href={`/api/invoices/${inv.id}/pdf`} target="_blank">
+                {/* <a href={`/api/invoices/${inv.id}/pdf`} target="_blank">
                   PDF
                 </a>
                 {" | "}
@@ -118,6 +122,10 @@ export default async function DashboardPage({
                   style={{ display: "inline" }}
                 >
                   <button type="submit">Email</button>
+                </form> */}
+                <form action={deleteInvoice} style={{ display: "inline" }}>
+                  <input type="hidden" name="id" value={inv.id} />
+                  <button type="submit">Delete</button>
                 </form>
               </li>
             )
