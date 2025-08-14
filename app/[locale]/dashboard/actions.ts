@@ -2,6 +2,7 @@
 import { prisma } from "@/lib/db";
 import crypto from "crypto";
 import { auth } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 // Define the item interface
 interface InvoiceItem {
@@ -52,7 +53,7 @@ export async function createInvoiceAction(prevState: any, formData: FormData) {
       items: { createMany: { data: items } }
     }
   });
-
+  revalidatePath(`/dashboard`);
   return { ok: true };
 }
 
@@ -68,6 +69,7 @@ export async function deleteInvoiceAction(prevState: any, formData: FormData) {
     await prisma.invoice.delete({
       where: { id }
     });
+    revalidatePath(`/dashboard`);
     return { ok: true };
   } catch (error) {
     console.log("Failed to delete invoice:", error);
