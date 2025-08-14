@@ -112,6 +112,8 @@ export default async function DashboardPage({
                   Html
                 </a>
                 {" | "}
+                <a href={`/${locale}/invoices/${inv.token}/edit`}>Edit</a>
+                {" | "}
                 {/* <a href={`/api/invoices/${inv.id}/pdf`} target="_blank">
                   PDF
                 </a>
