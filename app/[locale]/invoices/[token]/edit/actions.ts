@@ -1,20 +1,20 @@
 "use server";
+
 import { prisma } from "@/lib/db";
-import crypto from "crypto";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
-// Define the item interface
 interface InvoiceItem {
   description: string;
   quantity: number;
   unitCents: number;
 }
 
-export async function createInvoiceAction(prevState: any, formData: FormData) {
+export async function editInvoiceAction(prevState: any, formData: FormData) {
   const session = await auth();
   if (!session?.userId) return { ok: false, error: "Unauthorized" };
 
+  const id = formData.get("id");
   const clientId = Number(formData.get("clientId"));
   const number = String(formData.get("number"));
   const currency = String(formData.get("currency") || "USD");
@@ -35,44 +35,27 @@ export async function createInvoiceAction(prevState: any, formData: FormData) {
         items[index].unitCents = Number(value);
       }
   }
-}
-
-  const token = crypto.randomBytes(24).toString("base64url");
+  }
   const totalCents = items.reduce((sum, it) => sum + it.quantity * it.unitCents, 0);
 
-  await prisma.invoice.create({
+
+  await prisma.invoiceItem.deleteMany({
+    where: { invoiceId: Number(id) },
+  });
+  await prisma.invoice.update({
+    where: { id: Number(id) },
     data: {
-      userId: session.userId as string,
       clientId,
       number,
-      token,
       currency,
       issueDate,
       dueDate,
       totalCents,
-      items: { createMany: { data: items } }
+      items: {
+        createMany: { data: items }
+      },
     }
   });
-  revalidatePath(`/dashboard`);
-  return { ok: true };
-}
-
-export async function deleteInvoiceAction(prevState: any, formData: FormData) {
-  const session = await auth();
-  if (!session?.userId) return { ok: false, error: "Unauthorized" };
-
-  const id = Number(formData.get("id"));
-  console.log("Deleting invoice with ID:", id);
-  if (!id) return { ok: false, error: "Invalid invoice ID" };
-
-  try {
-    await prisma.invoice.delete({
-      where: { id }
-    });
-    revalidatePath(`/dashboard`);
-    return { ok: true };
-  } catch (error) {
-    console.log("Failed to delete invoice:", error);
-    return { ok: false, error: "Failed to delete invoice" };
-  }
+  revalidatePath(`/invoices/${id}/edit`);
+  return { ok: true, message: "Invoice updated successfully" };
 }
