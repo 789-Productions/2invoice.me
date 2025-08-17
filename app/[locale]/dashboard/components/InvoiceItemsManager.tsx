@@ -52,42 +52,23 @@ export default function InvoiceItemsManager({
   const handleRemoveItem = (indexToRemove: number) => {
     setItems(items.filter((_, index) => index !== indexToRemove));
   };
-
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "8px",
-        maxWidth: "750px",
-      }}
-    >
-      <label style={{ fontWeight: "bold" }}>Items</label>
+    <div className="flex max-w-4xl flex-col gap-4">
+      <label className="font-bold text-slate-800 dark:text-slate-100">
+        Items
+      </label>
 
       {/* Header Row */}
-      <div
-        style={{
-          display: "flex",
-          gap: "8px",
-          paddingBottom: "4px",
-          borderBottom: "1px solid #ccc",
-          color: "#555",
-          fontSize: "0.9rem",
-        }}
-      >
-        <div style={{ flex: 1, fontWeight: "bold" }}>Description</div>
-        <div style={{ flex: 1, fontWeight: "bold" }}>Quantity</div>
-        <div style={{ flex: 1, fontWeight: "bold" }}>Price (cents)</div>
-        {/* Placeholder for the remove button to keep alignment */}
-        <div style={{ width: `${REMOVE_BUTTON_WIDTH}px` }}></div>
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 text-sm font-semibold text-slate-600 dark:border-slate-700 dark:text-slate-300">
+        <div className="flex-[3]">Description</div>{" "}
+        <div className="flex-1">Quantity</div>
+        <div className="flex-1">Price (cents)</div>
+        <div style={{ width: `${REMOVE_BUTTON_WIDTH}px` }} />
       </div>
 
       {/* Item Rows */}
       {items.map((item, index) => (
-        <div
-          key={index}
-          style={{ display: "flex", alignItems: "center", gap: "8px" }}
-        >
+        <div key={index} className="flex items-center gap-2">
           <input
             type="text"
             name={`item-${index}-description`}
@@ -96,7 +77,7 @@ export default function InvoiceItemsManager({
               handleItemChange(index, "description", e.target.value)
             }
             placeholder="Service or Product"
-            style={{ flex: 1 }}
+            className="block w-full flex-[3] rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-slate-800 dark:text-slate-50 dark:ring-slate-700 dark:focus:ring-indigo-500"
           />
           <input
             type="number"
@@ -105,22 +86,23 @@ export default function InvoiceItemsManager({
             onChange={(e) =>
               handleItemChange(index, "quantity", e.target.value)
             }
-            style={{ flex: 1 }}
+            className="block w-full flex-1 rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-slate-800 dark:text-slate-50 dark:ring-slate-700 dark:focus:ring-indigo-500"
           />
           <input
-            type="text"
+            type="number"
             name={`item-${index}-unitCents`}
             value={item.unitCents}
             onChange={(e) =>
               handleItemChange(index, "unitCents", e.target.value)
             }
-            style={{ flex: 1 }}
+            className="block w-full flex-1 rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-slate-800 dark:text-slate-50 dark:ring-slate-700 dark:focus:ring-indigo-500"
           />
 
           <button
             type="button"
             onClick={() => handleRemoveItem(index)}
             style={{ width: `${REMOVE_BUTTON_WIDTH}px` }}
+            className="rounded bg-transparent px-2 py-1 text-sm font-semibold text-red-600 shadow-sm transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/50"
           >
             Remove
           </button>
@@ -130,11 +112,7 @@ export default function InvoiceItemsManager({
       <button
         type="button"
         onClick={handleAddItem}
-        style={{
-          alignSelf: "flex-start",
-          marginTop: "6px",
-          marginBottom: "2px",
-        }}
+        className="mt-2 self-start rounded-md bg-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
       >
         Add Item
       </button>
