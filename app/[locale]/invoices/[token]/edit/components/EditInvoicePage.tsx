@@ -1,6 +1,7 @@
 "use client";
 import { editInvoiceAction } from "../actions";
 import InvoiceItemsManager from "../../../../dashboard/components/InvoiceItemsManager";
+import EditInvoiceInfo from "../../../../dashboard/components/EditInvoiceInfo";
 import { useActionState } from "react";
 import { Invoice, Client, InvoiceItem } from "@/lib/generated/prisma/wasm";
 
@@ -20,52 +21,33 @@ export default function EditInvoiceComponent({
 
   return (
     <main>
-      <h1>Edit Invoice</h1>
-      <section style={{ marginTop: 16 }}>
+      <h1 className="text-2xl font-semibold text-slate-800 dark:text-slate-100">
+        Edit Invoice
+      </h1>
+      <section className="mt-8 justify-center">
         <form
           action={dispatch}
           style={{ display: "grid", gap: 8, maxWidth: 600 }}
         >
-          <label>
-            Client
-            <select name="clientId">
-              {clients.map((c: { id: number; name: string; email: string }) => (
-                <option key={c.id} value={c.id}>
-                  {c.name} ({c.email})
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Number <input name="number" defaultValue={invoice?.number} />
-          </label>
-          <label>
-            Currency <input name="currency" defaultValue={invoice?.currency} />
-          </label>
-          <label>
-            Issue Date{" "}
-            <input
-              type="date"
-              name="issueDate"
-              defaultValue={invoice?.issueDate.toISOString().slice(0, 10)}
-            />
-          </label>
-          <label>
-            Due Date{" "}
-            <input
-              type="date"
-              name="dueDate"
-              defaultValue={invoice?.dueDate.toISOString().slice(0, 10)}
-            />
-          </label>
-          <InvoiceItemsManager initialItems={items || []} />
+          <EditInvoiceInfo clients={clients} invoice={invoice} />
+          <div className="">
+            <InvoiceItemsManager initialItems={items || []} />
+          </div>
           <input type="hidden" name="id" value={invoice?.id} />
-          <button type="submit" disabled={isPending}>
+          <button
+            type="submit"
+            className="inline-flex justify-center rounded-md bg-indigo-600 py-2 px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            disabled={isPending}
+          >
             {isPending ? "Editing..." : "Edit"}
           </button>{" "}
         </form>
 
-        {state?.ok && <p>{state.message}</p>}
+        {state?.ok && (
+          <p className="inline-flex justify-center text-green-600">
+            {state.message}
+          </p>
+        )}
       </section>
     </main>
   );

@@ -1,7 +1,6 @@
 "use client";
-import { createInvoiceAction, deleteInvoiceAction } from "../actions";
-import InvoiceItemsManager from "./InvoiceItemsManager";
-
+import { deleteInvoiceAction } from "../actions";
+import CreateInvoice from "./CreateInvoice";
 interface Invoice {
   id: number;
   number: string;
@@ -11,21 +10,12 @@ interface Invoice {
   token: string;
 }
 
-interface Client {
-  id: number;
-  name: string;
-  email: string;
-}
-
 export default function DashboardClient({
   clients,
   invoices,
   baseUrl,
   locale,
 }: any) {
-  async function createInvoice(formData: FormData) {
-    await createInvoiceAction({}, formData);
-  }
   async function deleteInvoice(formData: FormData) {
     await deleteInvoiceAction({}, formData);
   }
@@ -38,115 +28,7 @@ export default function DashboardClient({
           Dashboard
         </h1>
 
-        <section>
-          <h2 className="text-2xl font-semibold text-slate-800 dark:text-slate-100">
-            Create invoice
-          </h2>
-          <form
-            action={createInvoice}
-            // Using a grid for a responsive form layout
-            className="mt-4 grid max-w-3xl grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6"
-          >
-            <div className="sm:col-span-6">
-              <label
-                htmlFor="clientId"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Client
-              </label>
-              <select
-                id="clientId"
-                name="clientId"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:border-slate-600 dark:text-white"
-              >
-                {clients.map((c: Client) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name} ({c.email})
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="number"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Number
-              </label>
-              <input
-                type="text"
-                id="number"
-                name="number"
-                defaultValue={`INV-${Date.now()}`}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:border-slate-600 dark:text-white"
-              />
-            </div>
-
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="currency"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Currency
-              </label>
-              <input
-                type="text"
-                id="currency"
-                name="currency"
-                defaultValue="USD"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:border-slate-600 dark:text-white"
-              />
-            </div>
-
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="issueDate"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Issue Date
-              </label>
-              <input
-                type="date"
-                id="issueDate"
-                name="issueDate"
-                defaultValue={new Date().toISOString().slice(0, 10)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:border-slate-600 dark:text-white"
-              />
-            </div>
-
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="dueDate"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Due Date
-              </label>
-              <input
-                type="date"
-                id="dueDate"
-                name="dueDate"
-                defaultValue={new Date(Date.now() + 7 * 864e5)
-                  .toISOString()
-                  .slice(0, 10)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:border-slate-600 dark:text-white"
-              />
-            </div>
-
-            <div className="sm:col-span-6">
-              <InvoiceItemsManager />
-            </div>
-
-            <div className="sm:col-span-6">
-              <button
-                type="submit"
-                className="inline-flex justify-center rounded-md bg-indigo-600 py-2 px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Create
-              </button>
-            </div>
-          </form>
-        </section>
+        <CreateInvoice clients={clients} />
 
         <section>
           <h2 className="text-2xl font-semibold text-slate-800 dark:text-slate-100">

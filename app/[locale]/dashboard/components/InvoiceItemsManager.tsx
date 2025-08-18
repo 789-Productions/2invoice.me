@@ -53,7 +53,7 @@ export default function InvoiceItemsManager({
     setItems(items.filter((_, index) => index !== indexToRemove));
   };
   return (
-    <div className="flex max-w-4xl flex-col gap-4">
+    <div className="flex max-w-4xl flex-col gap-4 mt-6 mb-6">
       <label className="font-bold text-slate-800 dark:text-slate-100">
         Items
       </label>
