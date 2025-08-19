@@ -20,16 +20,18 @@ export default async function InvoicePublicPage({
   });
 
   return (
-    <main>
-      <h1>Invoice #{invoice.number}</h1>
+    <main className="flex min-h-screen flex-col items-center justify-center bg-slate-50 p-8 dark:bg-slate-900 text-white">
+      <h1 className="text-2xl font-bold text-center mb-4 text-yellow-500">
+        Invoice #{invoice.number}
+      </h1>
       <p>
         <strong>Bill To:</strong> {invoice.client.name} ({invoice.client.email})
       </p>
-      <p>
-        Issue: {invoice.issueDate.toDateString()} | Due:{" "}
+      <p className="text-sm text-gray-400">
+        Issued: {invoice.issueDate.toDateString()} | Due:{" "}
         {invoice.dueDate.toDateString()}
       </p>
-      <ul>
+      <ul className="list-disc pl-5 mt-4">
         {invoice.items.map(
           (it: {
             id: number;
@@ -37,9 +39,9 @@ export default async function InvoicePublicPage({
             quantity: number;
             unitCents: number;
           }) => (
-            <li key={it.id}>
-              {it.description} × {it.quantity} —{" "}
-              {fmt.format((it.unitCents * it.quantity) / 100)}
+            <li className="py-1" key={it.id}>
+              {it.description} ({fmt.format(it.unitCents / 100)}) ×{" "}
+              {it.quantity} — {fmt.format((it.unitCents * it.quantity) / 100)}
             </li>
           )
         )}
