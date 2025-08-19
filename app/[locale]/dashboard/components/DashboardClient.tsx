@@ -1,6 +1,14 @@
 "use client";
-import { createInvoiceAction, deleteInvoiceAction } from "../actions";
-import InvoiceItemsManager from "./InvoiceItemsManager";
+import { deleteInvoiceAction } from "../actions";
+import CreateInvoice from "./CreateInvoice";
+interface Invoice {
+  id: number;
+  number: string;
+  client: { name: string };
+  totalCents: number;
+  currency: string;
+  token: string;
+}
 
 export default function DashboardClient({
   clients,
@@ -8,105 +16,68 @@ export default function DashboardClient({
   baseUrl,
   locale,
 }: any) {
-  async function createInvoice(formData: FormData) {
-    await createInvoiceAction({}, formData);
-  }
   async function deleteInvoice(formData: FormData) {
     await deleteInvoiceAction({}, formData);
   }
 
   return (
-    <main>
-      <h1>Dashboard</h1>
-      <section style={{ marginTop: 16 }}>
-        <h2>Create invoice</h2>
-        <form
-          action={createInvoice}
-          style={{ display: "grid", gap: 8, maxWidth: 600 }}
-        >
-          <label>
-            Client
-            <select name="clientId">
-              {clients.map((c: { id: number; name: string; email: string }) => (
-                <option key={c.id} value={c.id}>
-                  {c.name} ({c.email})
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Number <input name="number" defaultValue={`INV-${Date.now()}`} />
-          </label>
-          <label>
-            Currency <input name="currency" defaultValue="USD" />
-          </label>
-          <label>
-            Issue Date{" "}
-            <input
-              type="date"
-              name="issueDate"
-              defaultValue={new Date().toISOString().slice(0, 10)}
-            />
-          </label>
-          <label>
-            Due Date{" "}
-            <input
-              type="date"
-              name="dueDate"
-              defaultValue={new Date(Date.now() + 7 * 864e5)
-                .toISOString()
-                .slice(0, 10)}
-            />
-          </label>
-          <InvoiceItemsManager />
-          <button type="submit">Create</button>
-        </form>
-      </section>
-      <section style={{ marginTop: 24 }}>
-        <h2>Recent invoices</h2>
-        <ul>
-          {invoices.map(
-            (inv: {
-              id: number;
-              number: string;
-              client: { name: string };
-              totalCents: number;
-              currency: string;
-              token: string;
-            }) => (
-              <li key={inv.id}>
-                #{inv.number} — {inv.client.name} —{" "}
-                {(inv.totalCents / 100).toFixed(2)} {inv.currency}
-                {" | "}
-                <a
-                  href={`${baseUrl}/${locale}/invoices/${inv.token}`}
-                  target="_blank"
-                >
-                  Html
-                </a>
-                {" | "}
-                <a href={`/${locale}/invoices/${inv.token}/edit`}>Edit</a>
-                {" | "}
-                {/* <a href={`/api/invoices/${inv.id}/pdf`} target="_blank">
-                  PDF
-                </a>
-                {" | "}
-                <form
-                  action={`/api/invoices/${inv.id}/email`}
-                  method="post"
-                  style={{ display: "inline" }}
-                >
-                  <button type="submit">Email</button>
-                </form> */}
-                <form action={deleteInvoice} style={{ display: "inline" }}>
-                  <input type="hidden" name="id" value={inv.id} />
-                  <button type="submit">Delete</button>
-                </form>
+    // Main container with padding, background color, and vertical spacing between sections
+    <main className="min-h-screen bg-slate-50 p-4 sm:p-6 lg:p-8 dark:bg-slate-900">
+      <div className="mx-auto max-w-7xl space-y-12">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+          Dashboard
+        </h1>
+
+        <CreateInvoice clients={clients} />
+
+        <section>
+          <h2 className="text-2xl font-semibold text-slate-800 dark:text-slate-100">
+            Recent invoices
+          </h2>
+          <ul className="mt-4 space-y-4">
+            {invoices.map((inv: Invoice) => (
+              <li
+                key={inv.id}
+                className="flex items-center justify-between rounded-lg bg-white p-4 shadow-sm dark:bg-slate-800"
+              >
+                <div>
+                  <p className="font-semibold text-slate-900 dark:text-slate-50">
+                    #{inv.number} — {inv.client.name}
+                  </p>
+                  <p className="text-sm text-slate-600 dark:text-slate-300">
+                    {(inv.totalCents / 100).toFixed(2)} {inv.currency}
+                  </p>
+                </div>
+                {/* Action links/buttons on the right */}
+                <div className="flex items-center gap-4 text-sm font-medium">
+                  <a
+                    href={`${baseUrl}/${locale}/invoices/${inv.token}`}
+                    target="_blank"
+                    className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
+                  >
+                    Html
+                  </a>
+                  <a
+                    href={`/${locale}/invoices/${inv.token}/edit`}
+                    className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
+                  >
+                    Edit
+                  </a>
+                  <form action={deleteInvoice} className="inline">
+                    <input type="hidden" name="id" value={inv.id} />
+                    <button
+                      type="submit"
+                      className="font-medium text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                    >
+                      Delete
+                    </button>
+                  </form>
+                </div>
               </li>
-            )
-          )}
-        </ul>
-      </section>
+            ))}
+          </ul>
+        </section>
+      </div>
     </main>
   );
 }
