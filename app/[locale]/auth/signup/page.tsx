@@ -21,14 +21,16 @@ export default function SignUpPage() {
   }, [password]);
   return (
     <main>
-      <h1>Sign up</h1>
-      <form
-        action={dispatch}
-        style={{ display: "grid", gap: 8, maxWidth: 320 }}
-      >
-        <input name="email" placeholder="Email" />
+      <h1 className="text-white mb-4 bold text-2xl">Sign up</h1>
+      <form action={dispatch} className="flex flex-col gap-4 text-white">
+        <input
+          name="email"
+          className="flex-1 border border-white border-opacity-50 bg-transparent"
+          placeholder="Email"
+        />
         <input
           name="password"
+          className="flex-1 border border-white border-opacity-50 bg-transparent"
           type="password"
           placeholder="Password"
           value={password}
@@ -54,7 +56,11 @@ export default function SignUpPage() {
 function LoginButton({ valid = true }: { valid?: boolean }) {
   const { pending } = useFormStatus();
   return (
-    <button type="submit" aria-disabled={pending || !valid}>
+    <button
+      className="text-white bg-blue-500 hover:bg-blue-600"
+      type="submit"
+      aria-disabled={pending || !valid}
+    >
       {pending ? "Signing up..." : "Sign up"}
     </button>
   );
