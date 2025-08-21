@@ -7,6 +7,12 @@ generator client {
   output = "../lib/generated/prisma"
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+  output = "../docs/ERD.svg"
+  disabled = true;
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
