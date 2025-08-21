@@ -4,19 +4,11 @@ title: "[DOCS] <brief description>"
 labels: ["Documentation Task"]
 
 body:
-  - type: input
-    id: page
-    attributes:
-      label: "Page / Section to update"
-      description: "Path or URL of the doc."
-      placeholder: "docs/getting-started.md"
-    validations:
-      required: true
-
   - type: textarea
-    id: proposed_change
+    id: goal
     attributes:
-      label: "Proposed Change"
-      placeholder: "Describe the update."
+      label: "Goal"
+      description: "What are we trying to achieve? Link to story/epic if relevant."
+      placeholder: "E.g., Update the README to include the new feature."
     validations:
       required: true
