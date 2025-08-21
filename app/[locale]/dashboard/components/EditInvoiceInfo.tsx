@@ -1,4 +1,5 @@
 import { Invoice } from "@/lib/generated/prisma/wasm";
+import { useParams, useRouter } from "next/navigation";
 
 interface Client {
   id: number;
@@ -13,6 +14,8 @@ export default function EditInvoiceInfo({
   clients: Array<Client>;
   invoice: Invoice | null;
 }) {
+  const { locale } = useParams();
+  const router = useRouter();
   const defaultValues = {
     number: invoice?.number || `INV-${Date.now()}`,
     currency: invoice?.currency || "USD",
@@ -43,6 +46,12 @@ export default function EditInvoiceInfo({
             </option>
           ))}
         </select>
+        <button
+          className="rounded-md bg-indigo-600 px-0.5 py-0.5 mt-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+          onClick={() => router.push(`/${locale}/client/new`)}
+        >
+          Add Client
+        </button>
       </div>
 
       <div className="sm:col-span-3">
