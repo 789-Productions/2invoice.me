@@ -5,27 +5,10 @@ labels: ["QA Task"]
 
 body:
   - type: textarea
-    id: feature_under_test
+    id: goal
     attributes:
-      label: "Scenario / Feature under test"
-      description: "Link to PR, branch, or story."
-      placeholder: "E.g., /pull/123  •  Feature/login-flow"
+      label: "Goal"
+      description: "What is the goal of this task?"
+      placeholder: "E.g., Verify that the 'Add to Cart' button is disabled when the quantity is 0."
     validations:
       required: true
-
-  - type: textarea
-    id: test_steps
-    attributes:
-      label: "Test Steps"
-      description: "Step-by-step instructions."
-      placeholder: |
-        1. …
-        2. …
-    validations:
-      required: true
-
-  - type: textarea
-    id: expected_result
-    attributes:
-      label: "Expected Result"
-      placeholder: "What should happen?"

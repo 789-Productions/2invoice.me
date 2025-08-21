@@ -5,26 +5,10 @@ labels: ["DevOps Task"]
 
 body:
   - type: textarea
-    id: objective
+    id: goal
     attributes:
-      label: "Objective"
-      description: "High-level outcome."
-      placeholder: "E.g., Add staging environment to Terraform"
+      label: "Goal"
+      description: "What are we trying to achieve? Link to story/epic if relevant."
+      placeholder: "E.g., 'Automate the deployment of our application to production.'"
     validations:
       required: true
-
-  - type: textarea
-    id: definition_of_done
-    attributes:
-      label: "Definition of Done"
-      placeholder: |
-        - [ ] …
-        - [ ] …
-    validations:
-      required: true
-
-  - type: textarea
-    id: rollout
-    attributes:
-      label: "Roll-out / Back-out Plan"
-      description: "How will we deploy and, if needed, revert?"
