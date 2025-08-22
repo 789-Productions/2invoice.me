@@ -1,6 +1,8 @@
 import { createInvoiceAction } from "../actions";
 import EditInvoiceInfo from "./EditInvoiceInfo";
 import InvoiceItemsManager from "./InvoiceItemsManager";
+import Button from "@/app/components/Button";
+import { Header } from "@/app/components/Headers";
 
 interface Client {
   id: number;
@@ -15,9 +17,7 @@ async function createInvoice(formData: FormData) {
 export default function CreateInvoice({ clients }: { clients: Array<Client> }) {
   return (
     <section>
-      <h2 className="text-2xl font-semibold text-slate-800 dark:text-slate-100">
-        Create invoice
-      </h2>
+      <Header>Create invoice</Header>
       <form
         action={createInvoice}
         // Using a grid for a responsive form layout
@@ -25,13 +25,8 @@ export default function CreateInvoice({ clients }: { clients: Array<Client> }) {
         <EditInvoiceInfo invoice={null} clients={clients} />
         <InvoiceItemsManager />
 
-        <div className="sm:col-span-6">
-          <button
-            type="submit"
-            className="inline-flex justify-center rounded-md bg-indigo-600 py-2 px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Create
-          </button>
+        <div className="sm:col-span-6 sm">
+          <Button type="submit">Create</Button>
         </div>
       </form>
     </section>

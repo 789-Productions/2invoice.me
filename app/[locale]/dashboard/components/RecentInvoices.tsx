@@ -1,4 +1,5 @@
 import { deleteInvoiceAction } from "../actions";
+import { Header } from "@/app/components/Headers";
 
 interface Invoice {
   id: number;
@@ -16,9 +17,7 @@ export default function RecentInvoices({ invoices, baseUrl, locale }: any) {
 
   return (
     <section>
-      <h2 className="text-2xl font-semibold text-slate-800 dark:text-slate-100">
-        Recent invoices
-      </h2>
+      <Header>Recent invoices</Header>
       <ul className="mt-4 space-y-4">
         {invoices.map((inv: Invoice) => (
           <li
@@ -33,7 +32,6 @@ export default function RecentInvoices({ invoices, baseUrl, locale }: any) {
                 {(inv.totalCents / 100).toFixed(2)} {inv.currency}
               </p>
             </div>
-            {/* Action links/buttons on the right */}
             <div className="flex items-center gap-4 text-sm font-medium">
               <a
                 href={`${baseUrl}/${locale}/invoices/${inv.token}`}

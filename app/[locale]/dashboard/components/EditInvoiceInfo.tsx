@@ -1,5 +1,7 @@
 import { Invoice } from "@/lib/generated/prisma/wasm";
 import { useParams, useRouter } from "next/navigation";
+import Button from "../../../components/Button";
+import Label from "@/app/components/Label";
 
 interface Client {
   id: number;
@@ -28,13 +30,8 @@ export default function EditInvoiceInfo({
   };
   return (
     <section className="mt-4 grid max-w-3xl grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-      <div className="sm:col-span-6">
-        <label
-          htmlFor="clientId"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-        >
-          Client
-        </label>
+      <div className="sm:col-span-4">
+        <Label htmlFor="clientId">Client</Label>
         <select
           id="clientId"
           name="clientId"
@@ -46,21 +43,18 @@ export default function EditInvoiceInfo({
             </option>
           ))}
         </select>
-        <button
-          className="rounded-md bg-indigo-600 px-0.5 py-0.5 mt-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+      </div>
+      <div className="sm:col-span-2">
+        <Button
+          className="mt-2"
           onClick={() => router.push(`/${locale}/client/new`)}
         >
           Add Client
-        </button>
+        </Button>
       </div>
 
       <div className="sm:col-span-3">
-        <label
-          htmlFor="number"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-        >
-          Number
-        </label>
+        <Label htmlFor="number">Number</Label>
         <input
           type="text"
           id="number"
@@ -71,12 +65,7 @@ export default function EditInvoiceInfo({
       </div>
 
       <div className="sm:col-span-3">
-        <label
-          htmlFor="currency"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-        >
-          Currency
-        </label>
+        <Label htmlFor="currency">Currency</Label>
         <input
           type="text"
           id="currency"
@@ -87,12 +76,7 @@ export default function EditInvoiceInfo({
       </div>
 
       <div className="sm:col-span-3">
-        <label
-          htmlFor="issueDate"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-        >
-          Issue Date
-        </label>
+        <Label htmlFor="issueDate">Issue Date</Label>
         <input
           type="date"
           id="issueDate"
@@ -103,12 +87,7 @@ export default function EditInvoiceInfo({
       </div>
 
       <div className="sm:col-span-3">
-        <label
-          htmlFor="dueDate"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-        >
-          Due Date
-        </label>
+        <Label htmlFor="dueDate">Due Date</Label>
         <input
           type="date"
           id="dueDate"

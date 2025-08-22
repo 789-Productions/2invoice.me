@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { SmallHeader } from "@/app/components/Headers";
 
 interface Item {
   description: string;
