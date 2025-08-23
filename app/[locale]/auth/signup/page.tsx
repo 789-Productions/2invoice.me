@@ -3,6 +3,10 @@ import { useFormState, useFormStatus } from "react-dom";
 import { signUp } from "./actions";
 import { useState, useEffect } from "react";
 import { validatePassword } from "../lib/validation";
+import { Header } from "@/app/components/Headers";
+import Button from "@/app/components/Button";
+import Label from "@/app/components/Label";
+import Input from "@/app/components/Input";
 
 export default function SignUpPage() {
   const [server_msg, dispatch] = useFormState(signUp, undefined);
@@ -21,16 +25,13 @@ export default function SignUpPage() {
   }, [password]);
   return (
     <main>
-      <h1 className="text-white mb-4 bold text-2xl">Sign up</h1>
-      <form action={dispatch} className="flex flex-col gap-4 text-white">
-        <input
-          name="email"
-          className="flex-1 border border-white border-opacity-50 bg-transparent"
-          placeholder="Email"
-        />
-        <input
+      <Header>Sign up</Header>
+      <form action={dispatch} className="flex flex-col gap-4 text-white mt-4">
+        <Label htmlFor="email">Email</Label>
+        <Input name="email" placeholder="Email" />
+        <Label htmlFor="password">Password</Label>
+        <Input
           name="password"
-          className="flex-1 border border-white border-opacity-50 bg-transparent"
           type="password"
           placeholder="Password"
           value={password}
@@ -56,12 +57,8 @@ export default function SignUpPage() {
 function LoginButton({ valid = true }: { valid?: boolean }) {
   const { pending } = useFormStatus();
   return (
-    <button
-      className="text-white bg-blue-500 hover:bg-blue-600"
-      type="submit"
-      aria-disabled={pending || !valid}
-    >
+    <Button type="submit" aria-disabled={pending || !valid}>
       {pending ? "Signing up..." : "Sign up"}
-    </button>
+    </Button>
   );
 }

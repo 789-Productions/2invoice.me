@@ -2,6 +2,10 @@
 import { useFormState, useFormStatus } from "react-dom";
 import { authenticate } from "./actions";
 import { useParams } from "next/navigation";
+import { Header } from "@/app/components/Headers";
+import Label from "@/app/components/Label";
+import Input from "@/app/components/Input";
+import Button from "@/app/components/Button";
 
 export default function SignInPage() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
@@ -9,20 +13,13 @@ export default function SignInPage() {
   const locale = params?.locale || "en";
   return (
     <main>
-      <h1 className="text-white mb-4 bold text-2xl">Sign in</h1>
-      <form action={dispatch} className="flex flex-col gap-4 text-white">
-        <input
-          name="email"
-          className="flex-1 border border-white border-opacity-50 bg-gray-800 "
-          placeholder="Email"
-        />
-        <input
-          name="password"
-          className="flex-1 border border-white border-opacity-50 bg-gray-800"
-          type="password"
-          placeholder="Password"
-        />
-        <input type="hidden" name="locale" value={locale} />
+      <Header>Sign in</Header>
+      <form action={dispatch} className="flex flex-col gap-4 text-white mt-2">
+        <Label htmlFor="email">Email</Label>
+        <Input name="email" placeholder="Email" />
+        <Label htmlFor="password">Password</Label>
+        <Input name="password" type="password" placeholder="Password" />
+        <Input type="hidden" name="locale" value={locale} />
         <LoginButton />
         <RegisterButton locale={locale} />
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
@@ -34,23 +31,18 @@ export default function SignInPage() {
 function LoginButton() {
   const { pending } = useFormStatus();
   return (
-    <button
-      className="text-white bg-blue-500 hover:bg-blue-600"
-      type="submit"
-      aria-disabled={pending}
-    >
+    <Button type="submit" aria-disabled={pending}>
       {pending ? "Signing in..." : "Sign in"}
-    </button>
+    </Button>
   );
 }
 function RegisterButton({ locale = "en" }: { locale?: string }) {
   return (
-    <button
+    <Button
       type="button"
-      className="text-white bg-blue-500 hover:bg-blue-600"
       onClick={() => (window.location.href = "/" + locale + "/auth/signup")}
     >
       Register
-    </button>
+    </Button>
   );
 }

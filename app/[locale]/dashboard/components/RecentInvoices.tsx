@@ -18,6 +18,8 @@ export default function RecentInvoices({ invoices, baseUrl, locale }: any) {
   return (
     <section>
       <Header>Recent invoices</Header>
+      {/* line */}
+      <br />
       <ul className="mt-4 space-y-4">
         {invoices.map((inv: Invoice) => (
           <li

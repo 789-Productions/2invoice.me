@@ -2,6 +2,7 @@ import { Invoice } from "@/lib/generated/prisma/wasm";
 import { useParams, useRouter } from "next/navigation";
 import Button from "../../../components/Button";
 import Label from "@/app/components/Label";
+import { SmallHeader } from "@/app/components/Headers";
 
 interface Client {
   id: number;
@@ -30,6 +31,9 @@ export default function EditInvoiceInfo({
   };
   return (
     <section className="mt-4 grid max-w-3xl grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+      <div className="sm:col-span-6">
+        <SmallHeader>Client Info</SmallHeader>
+      </div>
       <div className="sm:col-span-4">
         <Label htmlFor="clientId">Client</Label>
         <select

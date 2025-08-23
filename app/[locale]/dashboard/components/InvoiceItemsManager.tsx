@@ -55,9 +55,7 @@ export default function InvoiceItemsManager({
   };
   return (
     <div className="flex max-w-4xl flex-col gap-4 mt-6 mb-6">
-      <label className="font-bold text-slate-800 dark:text-slate-100">
-        Items
-      </label>
+      <SmallHeader>Items</SmallHeader>
 
       {/* Header Row */}
       <div className="flex items-center gap-2 border-b border-slate-200 pb-2 text-sm font-semibold text-slate-600 dark:border-slate-700 dark:text-slate-300">
