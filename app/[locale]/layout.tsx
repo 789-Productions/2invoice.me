@@ -16,7 +16,7 @@ export default async function LocaleLayout({
   const messages = await getMessages();
   return (
     <html lang={locale}>
-      <body className="min-h-screen bg-slate-50 dark:bg-slate-900">
+      <body className="min-h-screen bg-slate-50 dark:bg-slate-950">
         <nav className="flex items-center text-white justify-between p-4 shadow dark:bg-slate-800">
           <Link href={`/${locale}`}>Home</Link>
           <Link href={`/${locale}/dashboard`}>Dashboard</Link>
