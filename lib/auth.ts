@@ -12,9 +12,10 @@ export const authConfig: NextAuthConfig = {
       async authorize(creds) {
         if (!creds?.email || !creds?.password) return null;
         const user = await prisma.user.findUnique({ where: { email: creds.email as string } });
-        if (!user?.passwordHash) return null;
+        if (!user || !user?.passwordHash) throw new Error("No user found with this email.");
         const ok = await bcrypt.compare(creds.password as string, user.passwordHash);
-        return ok ? { id: user.id, email: user.email ?? "" } : null;
+        if (!ok) throw new Error("Invalid password.");
+        return { id: user.id, email: user.email ?? "" };
       },
     }),
     // Add OAuth later, e.g.:

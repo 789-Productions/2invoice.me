@@ -8,7 +8,7 @@ import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
 
 export default function SignInPage() {
-  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+  const [response, dispatch] = useFormState(authenticate, undefined);
   const params = useParams<{ locale: string }>();
   const locale = params?.locale || "en";
   return (
@@ -22,7 +22,7 @@ export default function SignInPage() {
         <Input type="hidden" name="locale" value={locale} />
         <LoginButton />
         <RegisterButton locale={locale} />
-        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+        {response && <p className="text-red-500">{response.message}</p>}
       </form>
     </main>
   );
