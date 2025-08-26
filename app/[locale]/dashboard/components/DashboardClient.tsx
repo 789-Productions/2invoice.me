@@ -2,12 +2,7 @@
 import CreateInvoice from "./CreateInvoice";
 import RecentInvoices from "./RecentInvoices";
 
-export default function DashboardClient({
-  clients,
-  invoices,
-  baseUrl,
-  locale,
-}: any) {
+export default function DashboardClient({ clients, invoices, locale }: any) {
   return (
     // Main container with padding, background color, and vertical spacing between sections
     <main className="min-h-screen bg-slate-50 p-4 sm:p-6 lg:p-8 dark:bg-slate-900">
@@ -17,7 +12,7 @@ export default function DashboardClient({
         </h1>
 
         <CreateInvoice clients={clients} />
-        <RecentInvoices invoices={invoices} baseUrl={baseUrl} locale={locale} />
+        <RecentInvoices invoices={invoices} locale={locale} />
       </div>
     </main>
   );

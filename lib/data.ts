@@ -26,3 +26,9 @@ export const getRecentInvoices = cache (async () => {
   });
     return recentInvoices;
 })
+
+export const getUserById = cache(async (id: string) => {
+  console.log(`--- DATABASE HIT for user ${id} ---`);
+  const user = await prisma.user.findUnique({ where: { id } });
+  return user;
+});

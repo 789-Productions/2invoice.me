@@ -15,13 +15,7 @@ export default async function DashboardPage({
   }
   const clients = await getClients();
   const invoices = await getRecentInvoices();
-  const baseUrl = process.env.BASE_URL || "http://localhost:3000";
   return (
-    <DashboardClient
-      clients={clients}
-      invoices={invoices}
-      baseUrl={baseUrl}
-      locale={locale}
-    />
+    <DashboardClient clients={clients} invoices={invoices} locale={locale} />
   );
 }
