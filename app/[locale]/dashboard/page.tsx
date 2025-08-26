@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getClients, getRecentInvoices } from "@/lib/data";

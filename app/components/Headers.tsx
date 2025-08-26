@@ -6,9 +6,17 @@ export function SmallHeader({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function Header({ children }: { children: React.ReactNode }) {
+export function Header({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">
+    <h2
+      className={`text-2xl font-bold text-slate-800 dark:text-slate-100 ${className}`}
+    >
       {children}
     </h2>
   );
