@@ -1,4 +1,5 @@
 import { deleteInvoiceAction } from "@/app/[locale]/dashboard/actions";
+import { Invoice } from "@/lib/generated/prisma/wasm";
 export default function InvoiceHtmlItem({
   inv,
   locale,
@@ -17,10 +18,12 @@ export default function InvoiceHtmlItem({
     >
       <div>
         <p className="font-semibold text-slate-900 dark:text-slate-50">
-          #{inv.number} — {inv.client.name}
+          #{inv.number} — {inv.client.name}{" "}
         </p>
         <p className="text-sm text-slate-600 dark:text-slate-300">
           {(inv.totalCents / 100).toFixed(2)} {inv.currency}
+          {" | "}
+          {"Due: " + inv.dueDate.toDateString()}
         </p>
       </div>
       <div className="flex items-center gap-4 text-sm font-medium">

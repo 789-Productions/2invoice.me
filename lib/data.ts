@@ -32,3 +32,23 @@ export const getUserById = cache(async (id: string) => {
   const user = await prisma.user.findUnique({ where: { id } });
   return user;
 });
+
+export type SortType = "number" | "issueDate" | "dueDate" | "totalCents";
+export type SortOrder = "asc" | "desc";
+
+export const getInvoiceBySortInfo = cache(async (sortType: SortType, sortOrder: SortOrder) => {
+  const session = await auth();
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
+
+  const invoices = await prisma.invoice.findMany({
+    where: { userId: session.userId },
+    include: { client: true },
+    orderBy: {
+      [sortType]: sortOrder,
+    },
+    take:10,
+  });
+  return invoices;
+});

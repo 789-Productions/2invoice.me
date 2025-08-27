@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import fs from "fs";
 import { revalidatePath } from "next/cache";
+import { SortOrder, SortType, getInvoiceBySortInfo } from "@/lib/data";
 
 export async function editProfileAction(prevState: any, formData: FormData) {
   const session = await auth();
@@ -51,3 +52,10 @@ const processAndSaveImage = async (image: File, userId: string) => {
   fs.writeFileSync(imagePath, imageBuffer);
   return imagePath;
 };
+
+export async function fetchSortedInvoices(
+  sortType: SortType,
+  sortOrder: SortOrder
+) {
+  return getInvoiceBySortInfo(sortType, sortOrder);
+}
