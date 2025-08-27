@@ -69,6 +69,9 @@ web_modules/
 /lib/generated/prisma
 /prisma/migrations
 
+# profile pics created by users when locally developed
+/public/uploads
+
 # dotenv environment variable files
 .env
 .env.*

@@ -6,7 +6,7 @@ const withNextIntl = createNextIntlPlugin('./lib/i18n.ts');
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   experimental: {
-    serverActions: { allowedOrigins: ["*"] }
+    serverActions: { allowedOrigins: ["*"], bodySizeLimit: "2mb" }
   },
 };
 
