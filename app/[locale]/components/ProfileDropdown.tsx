@@ -51,7 +51,7 @@ export default function ProfileDropdown({
   }
 
   return (
-    <div ref={dropdownRef} className="relative inline-block text-left">
+    <div ref={dropdownRef} className="relative inline-block text-left z-10">
       <div>
         <button
           type="button"

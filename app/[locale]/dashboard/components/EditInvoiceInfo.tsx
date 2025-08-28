@@ -96,9 +96,7 @@ export default function EditInvoiceInfo({
           type="date"
           id="dueDate"
           name="dueDate"
-          defaultValue={new Date(Date.now() + 7 * 864e5)
-            .toISOString()
-            .slice(0, 10)}
+          defaultValue={defaultValues.dueDate}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:border-slate-600 dark:text-white"
         />
       </div>
