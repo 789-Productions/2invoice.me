@@ -1,5 +1,4 @@
 import { deleteInvoiceAction } from "@/app/[locale]/dashboard/actions";
-import { Invoice } from "@/lib/generated/prisma/wasm";
 export default function InvoiceHtmlItem({
   inv,
   locale,
@@ -11,6 +10,18 @@ export default function InvoiceHtmlItem({
     await deleteInvoiceAction({}, formData);
   };
   const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+  const today = new Date().valueOf();
+  if (today > inv.dueDate.valueOf()) {
+    console.log("Invoice is overdue");
+    console.log("today", today);
+    console.log("dueDate", inv.dueDate.valueOf());
+    const dif = today - inv.dueDate.valueOf();
+    console.log("today - dueDate");
+    console.log("Difference in days", Math.floor(dif / (1000 * 60 * 60 * 24)));
+  }
+  const differenceInDays = Math.floor(
+    (today - inv.dueDate.valueOf()) / (1000 * 60 * 60 * 24)
+  );
   return (
     <li
       key={inv.id}
@@ -20,10 +31,11 @@ export default function InvoiceHtmlItem({
         <p className="font-semibold text-slate-900 dark:text-slate-50">
           #{inv.number} — {inv.client.name}{" "}
         </p>
-        <p className="text-sm text-slate-600 dark:text-slate-300">
+        <p className="text-sm text-slate-600 dark:text-slate-300 flex justify-between gap-1">
           {(inv.totalCents / 100).toFixed(2)} {inv.currency}
           {" | "}
           {"Due: " + inv.dueDate.toDateString()}
+          {differenceInDays > 0 && <p className="text-red-500"> (Overdue)</p>}
         </p>
       </div>
       <div className="flex items-center gap-4 text-sm font-medium">

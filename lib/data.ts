@@ -36,7 +36,7 @@ export const getUserById = cache(async (id: string) => {
 export type SortType = "number" | "issueDate" | "dueDate" | "totalCents";
 export type SortOrder = "asc" | "desc";
 
-export const getInvoiceBySortInfo = cache(async (sortType: SortType, sortOrder: SortOrder) => {
+export const getInvoiceBySortInfo = cache(async (sortType: SortType, sortOrder: SortOrder, take: number = 10) => {
   const session = await auth();
   if (!session) {
     throw new Error("Unauthorized");
@@ -48,7 +48,7 @@ export const getInvoiceBySortInfo = cache(async (sortType: SortType, sortOrder: 
     orderBy: {
       [sortType]: sortOrder,
     },
-    take:10,
+    take: take,
   });
   return invoices;
 });
