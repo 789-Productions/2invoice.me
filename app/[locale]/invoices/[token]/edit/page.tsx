@@ -18,9 +18,9 @@ export default async function EditInvoicePage({
   });
   const invoice = await prisma.invoice.findUnique({
     where: { token: token },
-    include: { client: true, items: true },
+    include: { client: true, invoiceitem: true },
   });
-  const items = invoice?.items || [];
+  const items = invoice?.invoiceitem || [];
   return (
     <EditInvoiceComponent clients={clients} invoice={invoice} items={items} />
   );

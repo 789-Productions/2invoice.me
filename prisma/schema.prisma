@@ -1,33 +1,24 @@
-datasource db { 
-  provider = "mysql"
-  url = env("DATABASE_URL") 
-}
-generator client { 
+generator client {
   provider = "prisma-client-js"
-  output = "../lib/generated/prisma"
+  output   = "../lib/generated/prisma"
 }
 
-generator erd {
-  provider = "prisma-erd-generator"
-  output = "../docs/ERD.svg"
-  disabled = true;
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  passwordHash  String?
-  createdAt     DateTime  @default(now())
-  accounts      Account[]
-  sessions      Session[]
-  clients       Client[]
-  invoices      Invoice[]
+enum InvoiceStatus {
+  DRAFT
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  PAID
+  OVERDUE
+  CANCELLED
 }
 
-model Account {
+model account {
   id                String  @id @default(cuid())
   userId            String
   type              String
@@ -40,62 +31,86 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  @@unique([provider, providerAccountId])
+  user              user    @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Account_userId_fkey")
+
+  @@unique([provider, providerAccountId], map: "Account_provider_providerAccountId_key")
+  @@index([userId], map: "Account_userId_fkey")
 }
 
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-  @@unique([identifier, token])
-}
-
-model Client {
-  id        Int      @id @default(autoincrement())
+model client {
+  id        Int       @id @default(autoincrement())
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   name      String
   email     String
-  locale    String   @default("en")
-  currency  String   @default("USD")
-  createdAt DateTime @default(now())
-  invoices  Invoice[]
+  locale    String    @default("en")
+  currency  String    @default("USD")
+  createdAt DateTime  @default(now())
+  user      user      @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Client_userId_fkey")
+  invoice   invoice[]
+
+  @@index([userId], map: "Client_userId_fkey")
 }
 
-model Invoice {
-  id         Int           @id @default(autoincrement())
-  userId     String
-  clientId   Int
-  number     String
-  token      String        @unique
-  issueDate  DateTime
-  dueDate    DateTime
-  currency   String        @default("USD")
-  notes      String?
-  createdAt  DateTime      @default(now())
-  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  client     Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  items      InvoiceItem[]
-  totalCents Int
+model invoice {
+  id          Int           @id @default(autoincrement())
+  userId      String
+  clientId    Int
+  number      String
+  token       String        @unique(map: "Invoice_token_key")
+  issueDate   DateTime
+  dueDate     DateTime
+  currency    String        @default("USD")
+  notes       String?
+  createdAt   DateTime      @default(now())
+  totalCents  Int
+  client      client        @relation(fields: [clientId], references: [id], onDelete: Cascade, map: "Invoice_clientId_fkey")
+  user        user          @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Invoice_userId_fkey")
+  invoiceitem invoiceitem[]
+  status      InvoiceStatus @default(DRAFT)
 
-  @@index([userId])
-  @@index([clientId])
+  @@index([clientId], map: "Invoice_clientId_idx")
+  @@index([userId], map: "Invoice_userId_idx")
 }
 
-model InvoiceItem {
+model invoiceitem {
   id          Int     @id @default(autoincrement())
   invoiceId   Int
   description String
   quantity    Int
   unitCents   Int
-  invoice     Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  invoice     invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade, map: "InvoiceItem_invoiceId_fkey")
+
+  @@index([invoiceId], map: "InvoiceItem_invoiceId_fkey")
+}
+
+model session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique(map: "Session_sessionToken_key")
+  userId       String
+  expires      DateTime
+  user         user     @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Session_userId_fkey")
+
+  @@index([userId], map: "Session_userId_fkey")
+}
+
+model user {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique(map: "User_email_key")
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  createdAt     DateTime  @default(now())
+  account       account[]
+  client        client[]
+  invoice       invoice[]
+  session       session[]
+}
+
+model verificationtoken {
+  identifier String
+  token      String   @unique(map: "VerificationToken_token_key")
+  expires    DateTime
+
+  @@unique([identifier, token], map: "VerificationToken_identifier_token_key")
 }

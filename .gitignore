@@ -67,7 +67,6 @@ web_modules/
 
 # Prisma output
 /lib/generated/prisma
-/prisma/migrations
 
 # profile pics created by users when locally developed
 /public/uploads

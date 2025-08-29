@@ -3,16 +3,16 @@ import { editInvoiceAction } from "../actions";
 import InvoiceItemsManager from "../../../../dashboard/components/InvoiceItemsManager";
 import EditInvoiceInfo from "../../../../dashboard/components/EditInvoiceInfo";
 import { useActionState } from "react";
-import { Invoice, Client, InvoiceItem } from "@/lib/generated/prisma/wasm";
+import { invoice, client, invoiceitem } from "@/lib/generated/prisma/wasm";
 
 export default function EditInvoiceComponent({
   clients,
   invoice,
   items,
 }: {
-  clients: Array<Client>;
-  invoice: Invoice | null;
-  items: Array<InvoiceItem>;
+  clients: Array<client>;
+  invoice: invoice | null;
+  items: Array<invoiceitem>;
 }) {
   const [state, dispatch, isPending] = useActionState(editInvoiceAction, {
     ok: false,
