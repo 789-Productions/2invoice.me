@@ -1,5 +1,4 @@
 import { deleteInvoiceAction } from "@/app/[locale]/dashboard/actions";
-import { Invoice } from "@/lib/generated/prisma/wasm";
 export default function InvoiceHtmlItem({
   inv,
   locale,
@@ -11,20 +10,38 @@ export default function InvoiceHtmlItem({
     await deleteInvoiceAction({}, formData);
   };
   const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+  const today = new Date().valueOf();
+  const differenceInDays = Math.ceil(
+    (today - inv.dueDate.valueOf()) / (1000 * 60 * 60 * 24)
+  );
+  const addCommasToNumber = (num: number) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
   return (
     <li
       key={inv.id}
       className="flex items-center justify-between rounded-lg bg-white p-4 shadow-sm dark:bg-slate-800"
     >
       <div>
-        <p className="font-semibold text-slate-900 dark:text-slate-50">
-          #{inv.number} — {inv.client.name}{" "}
-        </p>
-        <p className="text-sm text-slate-600 dark:text-slate-300">
-          {(inv.totalCents / 100).toFixed(2)} {inv.currency}
-          {" | "}
-          {"Due: " + inv.dueDate.toDateString()}
-        </p>
+        <div>
+          <p className="font-semibold text-slate-900 dark:text-slate-50">
+            #{inv.number} — {inv.client.name}{" "}
+          </p>
+        </div>
+        <div className="flex gap-1">
+          <p className="text-sm text-green-600 dark:text-green-600">
+            ${addCommasToNumber(inv.totalCents / 100)}
+            {"."}
+            {(inv.totalCents / 100).toFixed(2).slice(-2)} {inv.currency}
+          </p>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            {" | "}
+            {"Due: " + inv.dueDate.toDateString()}
+          </p>
+          {differenceInDays > 0 && (
+            <p className="text-sm text-red-500"> ( Outstanding )</p>
+          )}
+        </div>
       </div>
       <div className="flex items-center gap-4 text-sm font-medium">
         <a

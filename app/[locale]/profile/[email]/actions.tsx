@@ -55,7 +55,8 @@ const processAndSaveImage = async (image: File, userId: string) => {
 
 export async function fetchSortedInvoices(
   sortType: SortType,
-  sortOrder: SortOrder
+  sortOrder: SortOrder,
+  takeAmount: number
 ) {
-  return getInvoiceBySortInfo(sortType, sortOrder);
+  return getInvoiceBySortInfo(sortType, sortOrder, takeAmount);
 }

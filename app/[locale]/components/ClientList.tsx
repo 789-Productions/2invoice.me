@@ -41,16 +41,22 @@ export default function ClientList({
             </button>
             {selectedClientList.includes(String(client.id)) && (
               <>
-                <SmallHeader>Invoices for {client.name}</SmallHeader>
-                <ul className="mb-4 mt-2 space-y-2">
-                  {clientInvoices[client.id].map((invoice) => (
-                    <InvoiceHtmlItem
-                      key={invoice.id}
-                      inv={invoice}
-                      locale="en"
-                    />
-                  ))}
-                </ul>
+                {clientInvoices[client.id].length > 0 ? (
+                  <>
+                    <SmallHeader>Invoices for {client.name}</SmallHeader>
+                    <ul className="mb-4 mt-2 space-y-2">
+                      {clientInvoices[client.id].map((invoice) => (
+                        <InvoiceHtmlItem
+                          key={invoice.id}
+                          inv={invoice}
+                          locale="en"
+                        />
+                      ))}
+                    </ul>
+                  </>
+                ) : (
+                  <SmallHeader>No invoices found</SmallHeader>
+                )}
               </>
             )}
           </li>

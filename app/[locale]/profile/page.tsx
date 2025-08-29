@@ -1,24 +1,19 @@
 import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
-import Text from "../../components/Text";
+import { redirect } from "next/navigation";
 
 const ProfilePage = async () => {
   const session = await auth();
   if (!session) {
-    return <div>Please log in to view this page.</div>;
+    redirect(`/en/auth/signin`);
   }
   const user = await prisma.user.findUnique({
     where: { id: session?.userId },
   });
-  if (!user) {
+  if (!user || !user.email) {
     return <div>User not found.</div>;
   }
-  return (
-    <Text>
-      Go to{" "}
-      <a href={`/en/profile/${user?.email}`}>{`/en/profile/${user?.email}`}</a>
-    </Text>
-  );
+  redirect(`/en/profile/${user.email}`);
 };
 
 export default ProfilePage;
