@@ -39,7 +39,7 @@ export async function editInvoiceAction(prevState: any, formData: FormData) {
   const totalCents = items.reduce((sum, it) => sum + it.quantity * it.unitCents, 0);
 
 
-  await prisma.invoiceItem.deleteMany({
+  await prisma.invoiceitem.deleteMany({
     where: { invoiceId: Number(id) },
   });
   await prisma.invoice.update({
@@ -51,7 +51,7 @@ export async function editInvoiceAction(prevState: any, formData: FormData) {
       issueDate,
       dueDate,
       totalCents,
-      items: {
+      invoiceitem: {
         createMany: { data: items }
       },
     }

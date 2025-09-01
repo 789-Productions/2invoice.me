@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import crypto from "crypto";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { InvoiceStatus } from "@/lib/generated/prisma";
 
 // Define the item interface
 interface InvoiceItem {
@@ -50,7 +51,8 @@ export async function createInvoiceAction(prevState: any, formData: FormData) {
       issueDate,
       dueDate,
       totalCents,
-      items: { createMany: { data: items } }
+      status: formData.get("status") as InvoiceStatus || "DRAFT",
+      invoiceitem: { createMany: { data: items } }
     }
   });
   revalidatePath(`/dashboard`);

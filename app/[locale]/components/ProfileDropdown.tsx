@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { returnNextReadableImageURL } from "@/lib/parse";
+import { signOutAction } from "../actions";
 
 const menuItems = [
   { label: "Profile", href: "/profile" },
@@ -19,11 +20,6 @@ export default function ProfileDropdown({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const handleSignOut = () => {
-    // Sign out logic here, for now link to logout
-    window.location.href = `/${locale}/auth/signout`;
-  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -92,14 +88,15 @@ export default function ProfileDropdown({
               {item.label}
             </Link>
           ))}
-
-          <button
-            onClick={handleSignOut}
-            className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-slate-700"
-            role="menuitem"
-          >
-            Sign out
-          </button>
+          <form action={signOutAction}>
+            <button
+              type="submit"
+              className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-slate-700"
+              role="menuitem"
+            >
+              Sign out
+            </button>
+          </form>
         </div>
       </div>
     </div>

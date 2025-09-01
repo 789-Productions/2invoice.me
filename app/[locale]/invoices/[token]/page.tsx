@@ -10,7 +10,7 @@ export default async function InvoicePublicPage({
   const { token, locale } = await params;
   const invoice = await prisma.invoice.findUnique({
     where: { token: token },
-    include: { client: true, items: true },
+    include: { client: true, invoiceitem: true },
   });
   if (!invoice) return notFound();
 
@@ -32,7 +32,7 @@ export default async function InvoicePublicPage({
         {invoice.dueDate.toDateString()}
       </p>
       <ul className="list-disc pl-5 mt-4">
-        {invoice.items.map(
+        {invoice.invoiceitem.map(
           (it: {
             id: number;
             description: string;

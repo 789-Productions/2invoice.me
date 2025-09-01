@@ -1,4 +1,4 @@
-import { Invoice } from "@/lib/generated/prisma/wasm";
+import { invoice } from "@/lib/generated/prisma/wasm";
 import { useParams, useRouter } from "next/navigation";
 import Button from "../../../components/Button";
 import Label from "@/app/components/Label";
@@ -15,7 +15,7 @@ export default function EditInvoiceInfo({
   invoice,
 }: {
   clients: Array<Client>;
-  invoice: Invoice | null;
+  invoice: invoice | null;
 }) {
   const { locale } = useParams();
   const router = useRouter();
@@ -50,6 +50,7 @@ export default function EditInvoiceInfo({
       </div>
       <div className="sm:col-span-2">
         <Button
+          type="button" // to not submit underlying form this component is in
           className="mt-2"
           onClick={() => router.push(`/${locale}/client/new`)}
         >
