@@ -1,5 +1,9 @@
 # Initial Database Migration Set Up
 
+1. Run 'npx prisma migrate resolve --applied "20250829193111_init"' (reset your database if neccessary)
+
+2. Then run 'npx prisma migrate deploy' whiich should run the next migration file.
+
 # What to do when making a Database Schema Change
 
 1. Make a change to schema.prisma

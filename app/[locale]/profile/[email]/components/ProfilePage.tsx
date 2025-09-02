@@ -1,6 +1,6 @@
 "use client";
 
-import { User, Client, Invoice } from "@/lib/generated/prisma/wasm";
+import { user, client, invoice } from "@/lib/generated/prisma/wasm";
 import { useState } from "react";
 import ProfileInfo from "./ProfileInfo";
 import EditProfileComponent from "./EditProfile";
@@ -12,10 +12,10 @@ const ProfilePage = ({
   viewingSelf,
   clientInvoices,
 }: {
-  user: User | null;
-  clients: Client[];
+  user: user | null;
+  clients: client[];
   viewingSelf: boolean;
-  clientInvoices: { [key: string]: Invoice[] };
+  clientInvoices: { [key: string]: invoice[] };
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   return (
