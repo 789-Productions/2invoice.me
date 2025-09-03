@@ -4,31 +4,40 @@ import Button from "@/app/components/Button";
 import { InvoiceSortSelector } from "./InvoiceSortSelector";
 import InvoiceList from "@/app/[locale]/components/InvoiceList";
 import { useState } from "react";
-import { Invoice } from "@/lib/generated/prisma/wasm";
+import { invoice } from "@/lib/generated/prisma/wasm";
+import { InvoiceStatus } from "@/lib/generated/prisma";
 import { SortType, SortOrder } from "@/lib/data";
 import { fetchSortedInvoices } from "../actions";
 import Text from "@/app/components/Text";
+
+type InvoiceStatusSearch = InvoiceStatus | "ANY";
 
 export const InvoiceClient = ({
   initialInvoices,
   locale,
 }: {
-  initialInvoices: Invoice[];
+  initialInvoices: invoice[];
   locale: string;
 }) => {
-  const [invoices, setInvoices] = useState<Invoice[]>(initialInvoices);
+  const [invoices, setInvoices] = useState<invoice[]>(initialInvoices);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showInvoices, setShowInvoices] = useState<boolean>(false);
   const handleSort = async (
     sortType: SortType,
     sortOrder: SortOrder,
-    takeAmount: number
+    takeAmount: number,
+    invoiceStatus: InvoiceStatusSearch,
+    min_price: number | undefined = undefined,
+    max_price: number | undefined = undefined
   ) => {
     setIsLoading(true);
     const sortedInvoices = await fetchSortedInvoices(
       sortType,
       sortOrder,
-      takeAmount
+      takeAmount,
+      invoiceStatus,
+      min_price,
+      max_price
     );
     setInvoices(sortedInvoices);
     setIsLoading(false);
@@ -47,6 +56,8 @@ export const InvoiceClient = ({
           <InvoiceSortSelector handleSort={handleSort} />
           {isLoading ? (
             <Text>Loading...</Text>
+          ) : invoices.length === 0 ? (
+            <Text>No invoices found.</Text>
           ) : (
             <InvoiceList invoices={invoices} locale={locale} />
           )}

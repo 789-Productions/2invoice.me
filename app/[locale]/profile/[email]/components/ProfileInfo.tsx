@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { User } from "@/lib/generated/prisma/wasm";
+import { user } from "@/lib/generated/prisma/wasm";
 import { LargeHeader, Header } from "@/app/components/Headers";
 import Text from "@/app/components/Text";
 import Image from "next/image";
@@ -12,7 +12,7 @@ const ProfileInfo = ({
   viewingSelf,
   setIsEditing,
 }: {
-  user: User | null;
+  user: user | null;
   viewingSelf: boolean;
   setIsEditing: (isEditing: boolean) => void;
 }) => {

@@ -4,6 +4,9 @@ import { auth } from "@/lib/auth";
 import fs from "fs";
 import { revalidatePath } from "next/cache";
 import { SortOrder, SortType, getInvoiceBySortInfo } from "@/lib/data";
+import { InvoiceStatus } from "@/lib/generated/prisma";
+
+type InvoiceStatusSearch = InvoiceStatus | "ANY";
 
 export async function editProfileAction(prevState: any, formData: FormData) {
   const session = await auth();
@@ -56,7 +59,23 @@ const processAndSaveImage = async (image: File, userId: string) => {
 export async function fetchSortedInvoices(
   sortType: SortType,
   sortOrder: SortOrder,
-  takeAmount: number
+  takeAmount: number,
+  invoiceStatus: InvoiceStatusSearch,
+  min_price: number | undefined,
+  max_price: number | undefined
 ) {
-  return getInvoiceBySortInfo(sortType, sortOrder, takeAmount);
+  if (min_price) {
+    min_price = min_price * 100;
+  }
+  if (max_price) {
+    max_price = max_price * 100;
+  }
+  return getInvoiceBySortInfo(
+    sortType,
+    sortOrder,
+    takeAmount,
+    invoiceStatus,
+    min_price,
+    max_price
+  );
 }
