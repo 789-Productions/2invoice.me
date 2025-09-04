@@ -12,11 +12,24 @@ enum InvoiceStatus {
   DRAFT
   PENDING
   IN_PROGRESS
+  NEEDS_APPROVAL
   COMPLETED
   PAID
   OVERDUE
   CANCELLED
 }
+
+enum InvoiceAction {
+  CREATE
+  SENT_FOR_CONFIRM
+  APPROVED
+  CANCEL
+  CHANGED_BY_CLIENT
+  CHANGED_BY_PROVIDER
+  CHANGE_APPROVED_BY_CLIENT
+  CHANGE_APPROVED_BY_PROVIDER
+}
+
 
 model account {
   id                String  @id @default(cuid())
@@ -66,10 +79,32 @@ model invoice {
   client      client        @relation(fields: [clientId], references: [id], onDelete: Cascade, map: "Invoice_clientId_fkey")
   user        user          @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Invoice_userId_fkey")
   invoiceitem invoiceitem[]
+  invoicehistory invoicehistory[]
   status      InvoiceStatus @default(DRAFT)
 
   @@index([clientId], map: "Invoice_clientId_idx")
   @@index([userId], map: "Invoice_userId_idx")
+}
+
+model invoicehistory {
+  id         Int           @id @default(autoincrement())
+  invoiceId  Int
+  action     InvoiceAction
+  createdAt  DateTime      @default(now())
+
+  invoiceChanges invoicechanges[]
+  invoice     invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade, map: "InvoiceHistory_invoiceId_fkey")
+}
+
+model invoicechanges {
+  id         Int           @id @default(autoincrement())
+  invoiceHistoryId Int
+  oldItemId  Int
+  newItemId  Int
+
+  oldInvoiceItem     invoiceitem @relation(name: "oldInvoiceItem", fields: [oldItemId], references: [id], onDelete: Cascade)
+  newInvoiceItem     invoiceitem @relation(name: "newInvoiceItem", fields: [newItemId], references: [id], onDelete: Cascade)
+  invoicehistory     invoicehistory @relation(fields: [invoiceHistoryId], references: [id], onDelete: Cascade)
 }
 
 model invoiceitem {
@@ -79,6 +114,9 @@ model invoiceitem {
   quantity    Int
   unitCents   Int
   invoice     invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade, map: "InvoiceItem_invoiceId_fkey")
+
+  changesAsNewItem invoicechanges[] @relation("newInvoiceItem")
+  changesAsOldItem invoicechanges[] @relation("oldInvoiceItem")
 
   @@index([invoiceId], map: "InvoiceItem_invoiceId_fkey")
 }
