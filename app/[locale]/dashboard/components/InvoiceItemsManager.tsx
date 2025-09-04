@@ -47,7 +47,7 @@ export default function InvoiceItemsManager({
   };
 
   const handleAddItem = () => {
-    setItems([...items, { description: "", quantity: 1, unitCents: 0 }]);
+    setItems([...items, { description: "", quantity: 1, unitCents: 1000 }]);
   };
 
   const handleRemoveItem = (indexToRemove: number) => {
@@ -75,7 +75,7 @@ export default function InvoiceItemsManager({
             onChange={(e) =>
               handleItemChange(index, "description", e.target.value)
             }
-            placeholder="Service or Product"
+            placeholder="Service or Product Description"
             className="block w-full flex-[3] rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-slate-800 dark:text-slate-50 dark:ring-slate-700 dark:focus:ring-indigo-500"
           />
           <input
