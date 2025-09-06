@@ -109,11 +109,11 @@ model invoicechanges {
 
 model invoiceitem {
   id          Int     @id @default(autoincrement())
-  invoiceId   Int
+  invoiceId   Int?
   description String
   quantity    Int
   unitCents   Int
-  invoice     invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade, map: "InvoiceItem_invoiceId_fkey")
+  invoice     invoice? @relation(fields: [invoiceId], references: [id], onDelete: Cascade, map: "InvoiceItem_invoiceId_fkey")
 
   changesAsNewItem invoicechanges[] @relation("newInvoiceItem")
   changesAsOldItem invoicechanges[] @relation("oldInvoiceItem")
