@@ -34,7 +34,7 @@ export async function sendConfirmChangesAction(differences: any[], invoiceId: nu
         // Create new item (that is an updated version of old item) and link both to change record
         const { description, quantity, unitCents } = diff.newItem;
         const newItem = await prisma.invoiceitem.create({
-          data: { description, quantity, unitCents, invoiceId }
+          data: { description, quantity, unitCents, invoiceId: null }
         });
         newItemId = newItem.id;
         oldItemId = diff.oldItem.id;
@@ -43,7 +43,7 @@ export async function sendConfirmChangesAction(differences: any[], invoiceId: nu
         // Create new item
         oldItemId = 0; // dummy old item
         const newItem = await prisma.invoiceitem.create({
-          data: { description, quantity, unitCents, invoiceId }
+          data: { description, quantity, unitCents, invoiceId: null}
         });
         newItemId = newItem.id;
       } else if (diff.oldItem) {
