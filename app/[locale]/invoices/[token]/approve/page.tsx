@@ -3,13 +3,15 @@ import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Button from "@/app/components/Button";
 import DisplayOldAndNewItems from "./components/DisplayOldAndNewItems";
+import { approveChangesActions } from "./actions";
+import ApproveClient from "./components/ApproveClient";
 
 export default async function InvoiceApprovePage({
   params,
 }: {
   params: Promise<{ token: string; locale: string }>;
 }) {
-  const { token, locale } = await params;
+  const { token } = await params;
   const invoice = await prisma.invoice.findUnique({
     where: { token: token },
     include: { client: true, invoiceitem: true },
@@ -23,60 +25,33 @@ export default async function InvoiceApprovePage({
     where: { invoiceId: invoice.id, action: "CHANGED_BY_CLIENT" },
   });
 
-  console.log("historyRecord", historyRecord);
-
+  if (!historyRecord) {
+    return notFound();
+  }
   const invoiceChanges = await prisma.invoicechanges.findMany({
-    where: { invoiceHistoryId: historyRecord?.id },
+    where: { invoiceHistoryId: historyRecord.id },
   });
-  console.log("invoiceChanges", invoiceChanges);
 
-  const newItems = await prisma.invoiceitem.findMany({
-    where: {
-      id: {
-        in: invoiceChanges
-          .map((change) => change.newItemId)
-          .filter((id) => id !== 0),
-      },
-    },
+  // get all the new and old items referenced in the changes in one call
+  const allValidItemIds = [
+    ...new Set(
+      invoiceChanges
+        .flatMap((change) => [change.oldItemId, change.newItemId])
+        .filter((id) => id !== 0)
+    ),
+  ];
+  const getItems = await prisma.invoiceitem.findMany({
+    where: { id: { in: allValidItemIds } },
   });
-  const oldItems = await prisma.invoiceitem.findMany({
-    where: {
-      id: {
-        in: invoiceChanges
-          .map((change) => change.oldItemId)
-          .filter((id) => id !== 0),
-      },
-    },
-  });
-  console.log("newItems", newItems);
-  console.log("oldItems", oldItems);
+  const itemById = new Map(getItems.map((item) => [item.id, item]));
+  const newItems = invoiceChanges.map((change) =>
+    change.newItemId === 0 ? null : itemById.get(change.newItemId) || null
+  );
+  const oldItems = invoiceChanges.map((change) =>
+    change.oldItemId === 0 ? null : itemById.get(change.oldItemId) || null
+  );
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-slate-50 p-8 dark:bg-slate-900 text-white">
-      <h1 className="text-2xl font-bold text-center mb-4 text-yellow-500">
-        Invoice #{invoice.number}
-      </h1>
-      <p>
-        <strong>Bill To:</strong> {invoice.client.name} ({invoice.client.email})
-      </p>
-      <p className="text-sm text-gray-400">
-        Issued: {invoice.issueDate.toDateString()} | Due:{" "}
-        {invoice.dueDate.toDateString()}
-      </p>
-      <DisplayOldAndNewItems
-        oldItems={oldItems}
-        newItems={newItems}
-        allItems={invoice.invoiceitem}
-      />
-      {/* <h2>Total: {fmt.format(invoice.totalCents / 100)}</h2> */}
-      <div className="flex flex-row items-center gap-4 mt-4">
-        <Button className="mt-2" color="blue">
-          Confirm
-        </Button>
-        <Button className="mt-2" color="red">
-          Reject
-        </Button>
-      </div>
-    </main>
+    <ApproveClient oldItems={oldItems} newItems={newItems} invoice={invoice} />
   );
 }
