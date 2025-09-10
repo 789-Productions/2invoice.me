@@ -14,19 +14,6 @@ const QTY_COL = "w-12 ";
 const TOTAL_COL = "w-24";
 const ARROW_COL = "w-12 text-center";
 
-// oldItems.map((item, index) => (
-//           <tr key={`old-${index}`}>
-//             <td className={OLD_TABLE_DATA_STYLE}>{item.description}</td>
-//             <td className={OLD_TABLE_DATA_STYLE}>
-//               {fmt.format(item.unitCents / 100)}
-//             </td>
-//             <td className={OLD_TABLE_DATA_STYLE}>{item.quantity}</td>
-//             <td className={OLD_TABLE_DATA_STYLE}>
-//               {fmt.format((item.unitCents * item.quantity) / 100)}
-//             </td>
-//           </tr>
-//         ))
-
 export default function DisplayOldAndNewItems({
   oldItems,
   newItems,
@@ -36,7 +23,6 @@ export default function DisplayOldAndNewItems({
   newItems: invoiceitemview[];
   allItems: invoiceitemview[];
 }) {
-  const rows = [];
   const fmt = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -169,16 +155,20 @@ export default function DisplayOldAndNewItems({
                 <tr key="compared-row">
                   {/* --- Old Item Data --- */}
                   <td className={`${DATA_STYLE} text-red-500`}>
-                    {oldItem.description}
+                    {oldItem.description ? oldItem.description : "---"}
                   </td>
                   <td className={`${DATA_STYLE} text-red-500`}>
-                    {fmt.format(oldItem.unitCents / 100)}
+                    {oldItem.unitCents
+                      ? fmt.format(oldItem.unitCents / 100)
+                      : "---"}
                   </td>
                   <td className={`${DATA_STYLE} text-red-500`}>
-                    {oldItem.quantity}
+                    {oldItem.quantity ? oldItem.quantity : "---"}
                   </td>
                   <td className={`${DATA_STYLE} text-red-500`}>
-                    {fmt.format((oldItem.unitCents * oldItem.quantity) / 100)}
+                    {oldItem.unitCents
+                      ? fmt.format((oldItem.unitCents * oldItem.quantity) / 100)
+                      : "---"}
                   </td>
 
                   {/* --- The Arrow --- */}
@@ -186,16 +176,20 @@ export default function DisplayOldAndNewItems({
 
                   {/* --- New Item Data --- */}
                   <td className={`${DATA_STYLE} text-green-500`}>
-                    {newItem.description}
+                    {newItem.description ? newItem.description : "---"}
                   </td>
                   <td className={`${DATA_STYLE} text-green-500`}>
-                    {fmt.format(newItem.unitCents / 100)}
+                    {newItem.unitCents
+                      ? fmt.format(newItem.unitCents / 100)
+                      : "---"}
                   </td>
                   <td className={`${DATA_STYLE} text-green-500`}>
-                    {newItem.quantity}
+                    {newItem.quantity ? newItem.quantity : "---"}
                   </td>
                   <td className={`${DATA_STYLE} text-green-500`}>
-                    {fmt.format((newItem.unitCents * newItem.quantity) / 100)}
+                    {newItem.unitCents && newItem.quantity
+                      ? fmt.format((newItem.unitCents * newItem.quantity) / 100)
+                      : "---"}
                   </td>
                 </tr>
               );

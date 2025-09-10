@@ -2,6 +2,7 @@ export const runtime = "nodejs";
 import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Button from "@/app/components/Button";
+import { confirmInvoiceAction, cancelInvoiceAction } from "./actions";
 
 export default async function InvoiceConfirmPage({
   params,
@@ -19,6 +20,12 @@ export default async function InvoiceConfirmPage({
     style: "currency",
     currency: invoice.currency,
   });
+  const approveInvoice = async () => {
+    await confirmInvoiceAction(invoice.id);
+  };
+  const cancelInvoice = async () => {
+    await cancelInvoiceAction(invoice.id);
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-slate-50 p-8 dark:bg-slate-900 text-white">
@@ -49,15 +56,21 @@ export default async function InvoiceConfirmPage({
       </ul>
       <h2>Total: {fmt.format(invoice.totalCents / 100)}</h2>
       <div className="flex flex-row items-center gap-4 mt-4">
-        <Button className="mt-2" color="blue">
-          Confirm
+        <Button className="mt-2" color="blue" onClick={approveInvoice}>
+          Confirm Invoice
         </Button>
-        <Button className="mt-2" color="red">
-          Cancel
+        <Button className="mt-2" color="red" onClick={cancelInvoice}>
+          Cancel Invoice
         </Button>
       </div>
       <div>
-        <Button className="mt-2" color="yellow">
+        <Button
+          className="mt-2"
+          color="yellow"
+          onClick={() =>
+            (window.location.href = `/${locale}/invoices/${token}/propose_changes`)
+          }
+        >
           Propose Changes
         </Button>
       </div>

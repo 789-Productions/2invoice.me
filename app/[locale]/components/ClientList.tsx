@@ -1,6 +1,6 @@
 "use client";
 
-import { Client, Invoice } from "@/lib/generated/prisma/wasm";
+import { client, invoice } from "@/lib/generated/prisma/wasm";
 import InvoiceHtmlItem from "./InvoiceHtmlItem";
 import { SmallHeader, Header } from "@/app/components/Headers";
 import { useState } from "react";
@@ -9,8 +9,8 @@ export default function ClientList({
   clients,
   clientInvoices,
 }: {
-  clients: Client[];
-  clientInvoices: { [key: string]: Invoice[] };
+  clients: client[];
+  clientInvoices: { [key: string]: invoice[] };
 }) {
   const [selectedClientList, setSelectedClientList] = useState<string[]>([]);
   const onClickClient = (clientId: string) => {
@@ -39,6 +39,7 @@ export default function ClientList({
                 {selectedClientList.includes(String(client.id)) ? "-" : "+"}
               </SmallHeader>
             </button>
+            {/* if the client is selected, show their invoices */}
             {selectedClientList.includes(String(client.id)) && (
               <>
                 {clientInvoices[client.id].length > 0 ? (

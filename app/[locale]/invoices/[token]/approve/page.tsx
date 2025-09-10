@@ -1,9 +1,6 @@
 export const runtime = "nodejs";
 import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
-import Button from "@/app/components/Button";
-import DisplayOldAndNewItems from "./components/DisplayOldAndNewItems";
-import { approveChangesActions } from "./actions";
 import ApproveClient from "./components/ApproveClient";
 
 export default async function InvoiceApprovePage({
@@ -40,10 +37,13 @@ export default async function InvoiceApprovePage({
         .filter((id) => id !== 0)
     ),
   ];
+  // one call to get all the items
   const getItems = await prisma.invoiceitem.findMany({
     where: { id: { in: allValidItemIds } },
   });
+  // map them by id for easy lookup
   const itemById = new Map(getItems.map((item) => [item.id, item]));
+  // build the newItems and oldItems arrays in the correct order, using null for missing items
   const newItems = invoiceChanges.map((change) =>
     change.newItemId === 0 ? null : itemById.get(change.newItemId) || null
   );

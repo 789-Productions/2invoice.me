@@ -1,31 +1,13 @@
 "use server";
 import { prisma } from "@/lib/db";
-import crypto from "crypto";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
-import { InvoiceStatus } from "@/lib/generated/prisma";
-
-// Define the item interface
-interface InvoiceItem {
-  description: string;
-  quantity: number;
-  unitCents: number;
-}
 
 export async function sendConfirmChangesAction(differences: any[], invoiceId: number) {
   const session = await auth();
   if (!session?.userId) return { ok: false, error: "Unauthorized" };
 
   try {
-    // first create a record in invoicehistory so that we have a reference for this set of changes and can look back on them
-    const invoiceChangesRecord = await prisma.invoicehistory.create({
-      data: {
-        invoiceId: invoiceId,
-        action: "CHANGED_BY_CLIENT",
-    },
-    });
-    const invoiceHistoryId = invoiceChangesRecord.id;
-
     // then create records in invoicechanges for each difference so that the provider can review them and look back on them through history
     for (const diff of differences) {
       let oldItemId: number = 0;
@@ -55,6 +37,14 @@ export async function sendConfirmChangesAction(differences: any[], invoiceId: nu
         throw new Error("Both oldItemId and newItemId are zero");
       }
       else {
+        const invoiceChangesRecord = await prisma.invoicehistory.create({
+          data: {
+                invoiceId: invoiceId,
+                action: "CHANGED_BY_CLIENT",
+            },
+        });
+        const invoiceHistoryId = invoiceChangesRecord.id;
+
         // create the change record linking to the invoice history record
         await prisma.invoicechanges.create({
             data: {

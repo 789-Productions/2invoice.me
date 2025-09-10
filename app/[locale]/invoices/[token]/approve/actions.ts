@@ -31,7 +31,7 @@ export async function approveChangesActions(newItems: (invoiceitem | null)[], ol
     await prisma.invoicehistory.create({
       data: {
         invoiceId: invoiceId,
-        action: "APPROVED",
+        action: "CHANGE_APPROVED_BY_PROVIDER",
     },
     });
     // let the provider know that the invoice has been approved and now can be in progress
