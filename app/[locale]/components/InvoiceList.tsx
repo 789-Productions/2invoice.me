@@ -1,11 +1,11 @@
-import { Invoice } from "@/lib/generated/prisma/wasm";
+import { invoice } from "@/lib/generated/prisma/wasm";
 import InvoiceHtmlItem from "./InvoiceHtmlItem";
 
 export default function InvoiceList({
   invoices,
   locale,
 }: {
-  invoices: Invoice[];
+  invoices: invoice[];
   locale: string;
 }) {
   return (

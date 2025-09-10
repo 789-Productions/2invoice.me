@@ -17,15 +17,14 @@ export default function InvoiceProposeChangesClientPage({
 }: {
   invoice: any;
 }) {
-  const fmt = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: invoice.currency || "USD",
-  });
-
   const checkEqualInvoiceItems = (a: invoiceitem, b: Item) => {
-    if (a.description !== b.description) return false;
-    if (a.quantity !== b.quantity) return false;
-    if (a.unitCents !== b.unitCents) return false;
+    if (
+      a.description !== b.description ||
+      a.quantity !== b.quantity ||
+      a.unitCents !== b.unitCents
+    ) {
+      return false;
+    }
     return true;
   };
 

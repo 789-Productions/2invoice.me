@@ -14,13 +14,13 @@ export const getClients = cache(async () => {
   return clients;
 });
 
-export const getRecentInvoices = cache (async () => {
+export const getRecentInvoices = cache (async (getCancelled: boolean = false) => {
     const session = await auth();
     if (!session) {
         throw new Error("Unauthorized");
     }
     const recentInvoices = await prisma.invoice.findMany({
-    where: { userId: session.userId },
+    where: { userId: session.userId, status: getCancelled ? undefined : { not: "CANCELLED" } },
     include: { client: true },
     orderBy: { createdAt: "desc" },
     take: 10,

@@ -50,7 +50,6 @@ export default function ApproveClient({
         newItems={normalizedNewItems}
         allItems={invoice.invoiceitem}
       />
-      {/* <h2>Total: {fmt.format(invoice.totalCents / 100)}</h2> */}
       <div className="flex flex-row items-center gap-4 mt-4">
         <Button className="mt-2" color="blue" onClick={approveChanges}>
           Confirm
