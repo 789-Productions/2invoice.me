@@ -1,14 +1,14 @@
 "use client";
-import { Header } from "@/app/components/Headers";
-import Button from "@/app/components/Button";
+import { Header } from "@/app/components/ui/Headers";
+import Button from "@/app/components/ui/Button";
 import { InvoiceSortSelector } from "./InvoiceSortSelector";
-import InvoiceList from "@/app/[locale]/components/InvoiceList";
+import InvoiceList from "@/app/components/general/InvoiceList";
 import { useState } from "react";
 import { invoice } from "@/lib/generated/prisma/wasm";
 import { InvoiceStatus } from "@/lib/generated/prisma";
 import { SortType, SortOrder } from "@/lib/data";
-import { fetchSortedInvoices } from "../actions";
-import Text from "@/app/components/Text";
+import { fetchSortedInvoices } from "../../../../[locale]/profile/[email]/actions";
+import Text from "@/app/components/ui/Text";
 
 type InvoiceStatusSearch = InvoiceStatus | "ANY";
 

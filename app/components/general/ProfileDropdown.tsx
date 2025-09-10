@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { returnNextReadableImageURL } from "@/lib/parse";
-import { signOutAction } from "../actions";
+import { signOutAction } from "../../[locale]/actions";
 
 const menuItems = [
   { label: "Profile", href: "/profile" },
@@ -42,6 +42,7 @@ export default function ProfileDropdown({
     return <Link href={`/${locale}/auth/signin`}>Sign in</Link>;
   }
 
+  // get profile image or default
   let imageURL = "/images/avatar.png";
   if (session.user.image) {
     imageURL = returnNextReadableImageURL(session.user.image);

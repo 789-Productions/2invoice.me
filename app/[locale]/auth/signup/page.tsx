@@ -3,10 +3,10 @@ import { useFormState, useFormStatus } from "react-dom";
 import { signUp } from "./actions";
 import { useState, useEffect } from "react";
 import { validatePassword } from "../lib/validation";
-import { Header } from "@/app/components/Headers";
-import Button from "@/app/components/Button";
-import Label from "@/app/components/Label";
-import Input from "@/app/components/Input";
+import { Header } from "@/app/components/ui/Headers";
+import Button from "@/app/components/ui/Button";
+import Label from "@/app/components/ui/Label";
+import Input from "@/app/components/ui/Input";
 
 export default function SignUpPage() {
   const [server_msg, dispatch] = useFormState(signUp, undefined);

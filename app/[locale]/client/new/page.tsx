@@ -2,11 +2,11 @@
 import { useFormState, useFormStatus } from "react-dom";
 import { createClient } from "./actions";
 import { useParams } from "next/navigation";
-import { Header } from "@/app/components/Headers";
-import Input from "@/app/components/Input";
-import Button from "@/app/components/Button";
-import Label from "@/app/components/Label";
-import Text from "@/app/components/Text";
+import { Header } from "@/app/components/ui/Headers";
+import Input from "@/app/components/ui/Input";
+import Button from "@/app/components/ui/Button";
+import Label from "@/app/components/ui/Label";
+import Text from "@/app/components/ui/Text";
 
 export default function CreateClientPage() {
   const [server_msg, dispatch] = useFormState(createClient, undefined);

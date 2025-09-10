@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
-import InvoiceProposeChangesClientPage from "./components/InvoiceProposeChangesClientPage";
+import InvoiceProposeChangesClientPage from "../../../../components/features/invoices/propose/InvoiceProposeChangesClientPage";
 
 export default async function InvoiceProposeChangesPage({
   params,

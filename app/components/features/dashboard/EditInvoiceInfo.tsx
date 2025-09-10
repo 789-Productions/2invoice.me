@@ -1,8 +1,8 @@
 import { invoice } from "@/lib/generated/prisma/wasm";
 import { useParams, useRouter } from "next/navigation";
-import Button from "../../../components/Button";
-import Label from "@/app/components/Label";
-import { SmallHeader } from "@/app/components/Headers";
+import Button from "../../ui/Button";
+import Label from "@/app/components/ui/Label";
+import { SmallHeader } from "@/app/components/ui/Headers";
 
 interface Client {
   id: number;

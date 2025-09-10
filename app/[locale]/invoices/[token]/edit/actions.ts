@@ -21,6 +21,7 @@ export async function editInvoiceAction(prevState: any, formData: FormData) {
   const issueDate = new Date(String(formData.get("issueDate")));
   const dueDate = new Date(String(formData.get("dueDate")));
   const items: InvoiceItem[] = [];
+  // parse items from formData
   for (const [key, value] of formData.entries()) {
     console.log(`Form data: ${key} = ${value}`);
     if (key.startsWith("item-")) {
@@ -38,7 +39,7 @@ export async function editInvoiceAction(prevState: any, formData: FormData) {
   }
   const totalCents = items.reduce((sum, it) => sum + it.quantity * it.unitCents, 0);
 
-
+  // delete all existing items and recreate them (simpler than diffing and updating/creating/deleting as needed)
   await prisma.invoiceitem.deleteMany({
     where: { invoiceId: Number(id) },
   });

@@ -1,13 +1,9 @@
 import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
-import ProfilePage from "./components/ProfilePage";
-import {
-  getClients,
-  getInvoiceBySortInfo,
-  getRecentInvoices,
-} from "@/lib/data";
-import { Invoice } from "@/lib/generated/prisma/wasm";
-import { InvoiceClient } from "./components/InvoiceClient";
+import ProfilePage from "../../../components/features/profile/email/ProfilePage";
+import { getClients, getRecentInvoices } from "@/lib/data";
+import { invoice } from "@/lib/generated/prisma/wasm";
+import { InvoiceClient } from "../../../components/features/profile/email/InvoiceClient";
 
 const Page = async ({
   params,
@@ -24,7 +20,7 @@ const Page = async ({
   const session = await auth();
   const viewingSelf = decodedEmail === session?.user?.email;
   const clients = await getClients();
-  let clientInvoices: { [key: string]: Invoice[] } = {};
+  let clientInvoices: { [key: string]: invoice[] } = {};
   for (const client of clients) {
     clientInvoices[client.id] = await prisma.invoice.findMany({
       where: { clientId: client.id },

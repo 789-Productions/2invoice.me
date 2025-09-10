@@ -1,7 +1,7 @@
-import { editProfileAction } from "../actions";
-import Label from "@/app/components/Label";
-import Button from "@/app/components/Button";
-import Input from "@/app/components/Input";
+import { editProfileAction } from "@/app/[locale]/profile/[email]/actions";
+import Label from "@/app/components/ui/Label";
+import Button from "@/app/components/ui/Button";
+import Input from "@/app/components/ui/Input";
 import Image from "next/image";
 
 const EditProfileForm = ({

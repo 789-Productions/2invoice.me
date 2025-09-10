@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Label from "@/app/components/Label";
+import Label from "@/app/components/ui/Label";
 import { SortType, SortOrder } from "@/lib/data";
 import { InvoiceStatus } from "@/lib/generated/prisma";
 

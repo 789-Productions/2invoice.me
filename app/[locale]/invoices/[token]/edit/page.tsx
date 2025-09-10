@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
-import EditInvoiceComponent from "./components/EditInvoicePage";
+import EditInvoiceComponent from "../../../../components/features/invoices/edit/EditInvoicePage";
 
 export default async function EditInvoicePage({
   params,

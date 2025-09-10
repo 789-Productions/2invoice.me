@@ -1,7 +1,7 @@
 export const runtime = "nodejs";
 import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
-import Button from "@/app/components/Button";
+import Button from "@/app/components/ui/Button";
 import { confirmInvoiceAction, cancelInvoiceAction } from "./actions";
 
 export default async function InvoiceConfirmPage({

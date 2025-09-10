@@ -3,7 +3,7 @@ import { getMessages } from "next-intl/server";
 import Link from "next/link";
 import "../globals.css";
 import { auth } from "@/lib/auth";
-import ProfileDropdown from "./components/ProfileDropdown";
+import ProfileDropdown from "../components/general/ProfileDropdown";
 
 export const metadata = { title: "Invoicer" };
 

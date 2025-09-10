@@ -1,8 +1,8 @@
-import { createInvoiceAction } from "../actions";
+import { createInvoiceAction } from "../../../[locale]/dashboard/actions";
 import EditInvoiceInfo from "./EditInvoiceInfo";
 import InvoiceItemsManager from "./InvoiceItemsManager";
-import Button from "@/app/components/Button";
-import { Header } from "@/app/components/Headers";
+import Button from "@/app/components/ui/Button";
+import { Header } from "@/app/components/ui/Headers";
 import { useState } from "react";
 
 interface Client {
