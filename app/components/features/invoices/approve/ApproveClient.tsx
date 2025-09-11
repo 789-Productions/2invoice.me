@@ -1,7 +1,7 @@
 "use client";
-import Button from "@/app/components/Button";
-import DisplayOldAndNewItems from "../components/DisplayOldAndNewItems";
-import { approveChangesActions } from "../actions";
+import Button from "@/app/components/ui/Button";
+import DisplayOldAndNewItems from "./DisplayOldAndNewItems";
+import { approveChangesActions } from "../../../../[locale]/invoices/[token]/approve/actions";
 import { invoiceitem } from "@/lib/generated/prisma/wasm";
 
 type invoiceitemview = {

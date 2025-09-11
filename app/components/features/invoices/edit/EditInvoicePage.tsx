@@ -1,7 +1,7 @@
 "use client";
-import { editInvoiceAction } from "../actions";
-import InvoiceItemsManager from "../../../../dashboard/components/InvoiceItemsManager";
-import EditInvoiceInfo from "../../../../dashboard/components/EditInvoiceInfo";
+import { editInvoiceAction } from "../../../../[locale]/invoices/[token]/edit/actions";
+import InvoiceItemsManager from "../../dashboard/InvoiceItemsManager";
+import EditInvoiceInfo from "../../dashboard/EditInvoiceInfo";
 import { useActionState } from "react";
 import { invoice, client, invoiceitem } from "@/lib/generated/prisma/wasm";
 

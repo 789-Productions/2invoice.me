@@ -1,7 +1,7 @@
 export const runtime = "nodejs";
 import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
-import ApproveClient from "./components/ApproveClient";
+import ApproveClient from "../../../../components/features/invoices/approve/ApproveClient";
 
 export default async function InvoiceApprovePage({
   params,

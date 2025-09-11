@@ -8,7 +8,7 @@ export async function sendConfirmChangesAction(differences: any[], invoiceId: nu
   if (!session?.userId) return { ok: false, error: "Unauthorized" };
 
   try {
-    // then create records in invoicechanges for each difference so that the provider can review them and look back on them through history
+    // create records in invoicechanges for each difference so that the provider can review them and look back on them through history
     for (const diff of differences) {
       let oldItemId: number = 0;
       let newItemId: number = 0;
@@ -37,6 +37,7 @@ export async function sendConfirmChangesAction(differences: any[], invoiceId: nu
         throw new Error("Both oldItemId and newItemId are zero");
       }
       else {
+        // create an invoice history record for this set of changes
         const invoiceChangesRecord = await prisma.invoicehistory.create({
           data: {
                 invoiceId: invoiceId,
@@ -44,7 +45,6 @@ export async function sendConfirmChangesAction(differences: any[], invoiceId: nu
             },
         });
         const invoiceHistoryId = invoiceChangesRecord.id;
-
         // create the change record linking to the invoice history record
         await prisma.invoicechanges.create({
             data: {

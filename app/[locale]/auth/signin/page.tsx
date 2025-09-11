@@ -2,10 +2,10 @@
 import { useFormState, useFormStatus } from "react-dom";
 import { authenticate } from "./actions";
 import { useParams } from "next/navigation";
-import { Header } from "@/app/components/Headers";
-import Label from "@/app/components/Label";
-import Input from "@/app/components/Input";
-import Button from "@/app/components/Button";
+import { Header } from "@/app/components/ui/Headers";
+import Label from "@/app/components/ui/Label";
+import Input from "@/app/components/ui/Input";
+import Button from "@/app/components/ui/Button";
 
 export default function SignInPage() {
   const [response, dispatch] = useFormState(authenticate, undefined);

@@ -2,8 +2,8 @@
 
 import React from "react";
 import { user } from "@/lib/generated/prisma/wasm";
-import { LargeHeader, Header } from "@/app/components/Headers";
-import Text from "@/app/components/Text";
+import { LargeHeader, Header } from "@/app/components/ui/Headers";
+import Text from "@/app/components/ui/Text";
 import Image from "next/image";
 import { returnNextReadableImageURL } from "@/lib/parse";
 

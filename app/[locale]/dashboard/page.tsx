@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getClients, getRecentInvoices } from "@/lib/data";
-import DashboardClient from "./components/DashboardClient";
+import DashboardClient from "../../components/features/dashboard/DashboardClient";
 
 export default async function DashboardPage({
   params,

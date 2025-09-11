@@ -2,7 +2,7 @@
 
 import { client, invoice } from "@/lib/generated/prisma/wasm";
 import InvoiceHtmlItem from "./InvoiceHtmlItem";
-import { SmallHeader, Header } from "@/app/components/Headers";
+import { SmallHeader, Header } from "@/app/components/ui/Headers";
 import { useState } from "react";
 
 export default function ClientList({

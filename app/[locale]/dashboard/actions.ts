@@ -78,3 +78,31 @@ export async function deleteInvoiceAction(prevState: any, formData: FormData) {
     return { ok: false, error: "Failed to delete invoice" };
   }
 }
+
+
+export async function confirmInvoiceAction(prevState: any, formData: FormData) {
+  const session = await auth();
+  if (!session?.userId) return { ok: false, error: "Unauthorized" };
+
+  const id = Number(formData.get("id"));
+  console.log("Confirming invoice with ID:", id);
+  if (!id) return { ok: false, error: "Invalid invoice ID" };
+
+  try {
+    await prisma.invoice.update({
+      where: { id },
+      data: { status: "COMPLETED" }
+    });
+    await prisma.invoicehistory.create({
+        data: {
+            invoiceId: id,
+            action: "COMPLETED",
+        },
+    });
+    revalidatePath(`/dashboard`);
+    return { ok: true };
+  } catch (error) {
+    console.log("Failed to confirm invoice:", error);
+    return { ok: false, error: "Failed to confirm invoice" };
+  }
+}

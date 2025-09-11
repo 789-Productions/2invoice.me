@@ -1,10 +1,10 @@
 "use client";
 export const runtime = "nodejs";
-import Button from "@/app/components/Button";
-import ControlledInvoiceItemsManager from "@/app/[locale]/dashboard/components/ControlledInvoiceItemsManager";
+import Button from "@/app/components/ui/Button";
+import ControlledInvoiceItemsManager from "@/app/components/features/dashboard/ControlledInvoiceItemsManager";
 import { useState } from "react";
 import { invoiceitem } from "@/lib/generated/prisma/wasm";
-import { sendConfirmChangesAction } from "../actions";
+import { sendConfirmChangesAction } from "../../../../[locale]/invoices/[token]/propose_changes/actions";
 
 type Item = {
   description: string;
@@ -27,6 +27,8 @@ export default function InvoiceProposeChangesClientPage({
     }
     return true;
   };
+
+  // function that compares two arrays of invoice items and returns the differences
 
   const getDifferences = (oldItems: invoiceitem[], newItems: Item[]) => {
     const maxItems = Math.max(oldItems.length, newItems.length);

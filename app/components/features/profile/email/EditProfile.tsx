@@ -1,5 +1,5 @@
 // overlay to quickly edit profile information
-import { Header } from "@/app/components/Headers";
+import { Header } from "@/app/components/ui/Headers";
 import { useState } from "react";
 import EditProfileForm from "./EditProfileForm";
 

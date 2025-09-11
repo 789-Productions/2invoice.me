@@ -4,7 +4,7 @@ import { user, client, invoice } from "@/lib/generated/prisma/wasm";
 import { useState } from "react";
 import ProfileInfo from "./ProfileInfo";
 import EditProfileComponent from "./EditProfile";
-import ClientList from "@/app/[locale]/components/ClientList";
+import ClientList from "@/app/components/general/ClientList";
 
 const ProfilePage = ({
   user,

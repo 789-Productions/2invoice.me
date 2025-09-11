@@ -1,6 +1,5 @@
 "use client";
-import { useState } from "react";
-import { SmallHeader } from "@/app/components/Headers";
+import { SmallHeader } from "@/app/components/ui/Headers";
 
 interface Item {
   description: string;
@@ -9,21 +8,16 @@ interface Item {
 }
 
 interface InvoiceItemsManagerProps {
-  initialItems?: Item[];
+  items?: Item[];
+  onItemChange: (items: Item[]) => void;
 }
 
 const REMOVE_BUTTON_WIDTH = 80; // alignment css purposes
 
-export default function InvoiceItemsManager({
-  initialItems,
+export default function ControlledInvoiceItemsManager({
+  items = [{ description: "Initial Item", quantity: 1, unitCents: 1000 }],
+  onItemChange,
 }: InvoiceItemsManagerProps) {
-  const [items, setItems] = useState<Array<Item>>(
-    initialItems || [
-      { description: "Initial Item", quantity: 1, unitCents: 1000 },
-    ]
-  );
-
-  // Handles changes to any input field for any item
   const handleItemChange = (
     index: number,
     field: keyof Item,
@@ -43,15 +37,15 @@ export default function InvoiceItemsManager({
     }
 
     newItems[index] = itemToUpdate;
-    setItems(newItems);
+    onItemChange(newItems);
   };
 
   const handleAddItem = () => {
-    setItems([...items, { description: "", quantity: 1, unitCents: 1000 }]);
+    onItemChange([...items, { description: "", quantity: 1, unitCents: 1000 }]);
   };
 
   const handleRemoveItem = (indexToRemove: number) => {
-    setItems(items.filter((_, index) => index !== indexToRemove));
+    onItemChange(items.filter((_, index) => index !== indexToRemove));
   };
   return (
     <div className="flex max-w-4xl flex-col gap-4 mt-6 mb-6">

@@ -1,4 +1,8 @@
-import { deleteInvoiceAction } from "@/app/[locale]/dashboard/actions";
+import {
+  confirmInvoiceAction,
+  deleteInvoiceAction,
+} from "@/app/[locale]/dashboard/actions";
+import { cancelInvoiceAction } from "@/app/[locale]/invoices/[token]/confirm/actions";
 export default function InvoiceHtmlItem({
   inv,
   locale,
@@ -9,8 +13,15 @@ export default function InvoiceHtmlItem({
   const deleteInvoice = async (formData: FormData) => {
     await deleteInvoiceAction({}, formData);
   };
+  const completeInvoice = async (formData: FormData) => {
+    await confirmInvoiceAction({}, formData);
+  };
+  const cancelInvoice = async () => {
+    await cancelInvoiceAction(inv.id);
+  };
   const baseUrl = process.env.BASE_URL || "http://localhost:3000";
   const today = new Date().valueOf();
+  // to determine if the invoice is overdue
   const differenceInDays = Math.ceil(
     (today - inv.dueDate.valueOf()) / (1000 * 60 * 60 * 24)
   );
@@ -53,14 +64,47 @@ export default function InvoiceHtmlItem({
           target="_blank"
           className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
         >
-          Html
+          Html View
         </a>
-        <a
-          href={`/${locale}/invoices/${inv.token}/edit`}
-          className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
-        >
-          Edit
-        </a>
+        {/* Only show edit link if the invoice is in DRAFT status */}
+        {inv.status === "DRAFT" && (
+          <a
+            href={`/${locale}/invoices/${inv.token}/edit`}
+            className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
+          >
+            Edit
+          </a>
+        )}
+        {inv.status !== "DRAFT" && (
+          <a
+            href={`/${locale}/invoices/${inv.token}/propose_changes`}
+            className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
+          >
+            Propose Changes
+          </a>
+        )}
+        {inv.status === "IN_PROGRESS" && (
+          <>
+            <form action={completeInvoice} className="inline">
+              <input type="hidden" name="id" value={inv.id} />
+              <button
+                type="submit"
+                className="font-medium text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300"
+              >
+                Complete
+              </button>
+            </form>
+            <form action={cancelInvoice} className="inline">
+              <input type="hidden" name="id" value={inv.id} />
+              <button
+                type="submit"
+                className="font-medium text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+              >
+                Cancel
+              </button>
+            </form>
+          </>
+        )}
         <form action={deleteInvoice} className="inline">
           <input type="hidden" name="id" value={inv.id} />
           <button
