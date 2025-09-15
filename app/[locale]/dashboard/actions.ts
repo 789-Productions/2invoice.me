@@ -80,12 +80,12 @@ export async function deleteInvoiceAction(prevState: any, formData: FormData) {
 }
 
 
-export async function confirmInvoiceAction(prevState: any, formData: FormData) {
+export async function completeInvoiceAction(prevState: any, formData: FormData) {
   const session = await auth();
   if (!session?.userId) return { ok: false, error: "Unauthorized" };
 
   const id = Number(formData.get("id"));
-  console.log("Confirming invoice with ID:", id);
+  console.log("Completing invoice with ID:", id);
   if (!id) return { ok: false, error: "Invalid invoice ID" };
 
   try {
@@ -102,7 +102,7 @@ export async function confirmInvoiceAction(prevState: any, formData: FormData) {
     revalidatePath(`/dashboard`);
     return { ok: true };
   } catch (error) {
-    console.log("Failed to confirm invoice:", error);
-    return { ok: false, error: "Failed to confirm invoice" };
+    console.log("Failed to complete invoice:", error);
+    return { ok: false, error: "Failed to complete invoice" };
   }
 }
