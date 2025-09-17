@@ -45,6 +45,7 @@ CREATE TABLE `invoice` (
     `notes` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `totalCents` INTEGER NOT NULL,
+    `status` ENUM('DRAFT', 'PENDING', 'IN_PROGRESS', 'NEEDS_APPROVAL', 'COMPLETED', 'PAID', 'OVERDUE', 'CANCELLED') NOT NULL DEFAULT 'DRAFT',
 
     UNIQUE INDEX `Invoice_token_key`(`token`),
     INDEX `Invoice_clientId_idx`(`clientId`),
@@ -53,9 +54,29 @@ CREATE TABLE `invoice` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `invoiceitem` (
+CREATE TABLE `invoicehistory` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `invoiceId` INTEGER NOT NULL,
+    `action` ENUM('CREATE', 'SENT_FOR_CONFIRM', 'APPROVED', 'COMPLETED', 'PAID', 'CANCEL', 'CHANGED_BY_CLIENT', 'CHANGED_BY_PROVIDER', 'CHANGE_APPROVED_BY_CLIENT', 'CHANGE_APPROVED_BY_PROVIDER') NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `invoicechanges` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `invoiceHistoryId` INTEGER NOT NULL,
+    `oldItemId` INTEGER NOT NULL,
+    `newItemId` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `invoiceitem` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `invoiceId` INTEGER NULL,
     `description` VARCHAR(191) NOT NULL,
     `quantity` INTEGER NOT NULL,
     `unitCents` INTEGER NOT NULL,
@@ -111,6 +132,18 @@ ALTER TABLE `invoice` ADD CONSTRAINT `Invoice_clientId_fkey` FOREIGN KEY (`clien
 
 -- AddForeignKey
 ALTER TABLE `invoice` ADD CONSTRAINT `Invoice_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `invoicehistory` ADD CONSTRAINT `InvoiceHistory_invoiceId_fkey` FOREIGN KEY (`invoiceId`) REFERENCES `invoice`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `invoicechanges` ADD CONSTRAINT `invoicechanges_oldItemId_fkey` FOREIGN KEY (`oldItemId`) REFERENCES `invoiceitem`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `invoicechanges` ADD CONSTRAINT `invoicechanges_newItemId_fkey` FOREIGN KEY (`newItemId`) REFERENCES `invoiceitem`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `invoicechanges` ADD CONSTRAINT `invoicechanges_invoiceHistoryId_fkey` FOREIGN KEY (`invoiceHistoryId`) REFERENCES `invoicehistory`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `invoiceitem` ADD CONSTRAINT `InvoiceItem_invoiceId_fkey` FOREIGN KEY (`invoiceId`) REFERENCES `invoice`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
