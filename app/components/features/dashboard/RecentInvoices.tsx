@@ -28,7 +28,7 @@ export default function RecentInvoices({ invoices, locale }: any) {
       <ul className="mt-4 space-y-4">
         {invoices.map((inv: invoice) =>
           inv.status === "CANCELLED" && !showCancelled ? null : (
-            <InvoiceHtmlItem key={inv.id} inv={inv} locale={locale} />
+            <InvoiceHtmlItem key={inv.id} inv={inv} />
           )
         )}
       </ul>

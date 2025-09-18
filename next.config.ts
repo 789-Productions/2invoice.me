@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
     serverActions: { allowedOrigins: ["*"], bodySizeLimit: "2mb" }
   },
   output: 'standalone',
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 

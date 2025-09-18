@@ -47,11 +47,7 @@ export default function ClientList({
                     <SmallHeader>Invoices for {client.name}</SmallHeader>
                     <ul className="mb-4 mt-2 space-y-2">
                       {clientInvoices[client.id].map((invoice) => (
-                        <InvoiceHtmlItem
-                          key={invoice.id}
-                          inv={invoice}
-                          locale="en"
-                        />
+                        <InvoiceHtmlItem key={invoice.id} inv={invoice} />
                       ))}
                     </ul>
                   </>

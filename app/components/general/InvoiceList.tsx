@@ -13,7 +13,7 @@ export default function InvoiceList({
       <ul>
         {invoices.map((invoice) => (
           <div className="mb-2 space-y-2" key={invoice.id}>
-            <InvoiceHtmlItem inv={invoice} locale={locale} />
+            <InvoiceHtmlItem inv={invoice} />
           </div>
         ))}
       </ul>
