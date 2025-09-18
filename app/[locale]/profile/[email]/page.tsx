@@ -5,29 +5,36 @@ import { getClients, getRecentInvoices } from "@/lib/data";
 import { invoice } from "@/lib/generated/prisma/wasm";
 import { InvoiceClient } from "../../../components/features/profile/email/InvoiceClient";
 
-const Page = async ({
-  params,
-}: {
-  params: { email: string; locale: string };
-}) => {
-  await params;
-  const { email, locale } = params;
-  const decodedEmail = decodeURIComponent(email);
-  const user = await prisma.user.findUnique({
-    where: { email: decodedEmail },
-  });
+type Params = Promise<{ email: string; locale: string }>;
 
-  const session = await auth();
+const Page = async ({ params }: { params: Params }) => {
+  const { email, locale } = await params;
+  const decodedEmail = decodeURIComponent(email);
+  // run in parallel to speed up
+  const [user, session, clients, invoices] = await Promise.all([
+    prisma.user.findUnique({
+      where: { email: decodedEmail },
+    }),
+    auth(),
+    getClients(),
+    getRecentInvoices(),
+  ]);
+
   const viewingSelf = decodedEmail === session?.user?.email;
-  const clients = await getClients();
-  let clientInvoices: { [key: string]: invoice[] } = {};
-  for (const client of clients) {
-    clientInvoices[client.id] = await prisma.invoice.findMany({
-      where: { clientId: client.id },
-      include: { client: true },
-    });
-  }
-  const invoices = await getRecentInvoices();
+  // dont make a seperate query for each client, instead get all invoices and group them by client
+  const clientIds = clients.map((client) => client.id);
+  const allInvoices = await prisma.invoice.findMany({
+    where: { clientId: { in: clientIds } },
+    include: { client: true },
+  });
+  const clientInvoices = allInvoices.reduce((acc, invoice) => {
+    const key = invoice.clientId;
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    acc[key].push(invoice);
+    return acc;
+  }, {} as { [key: string]: typeof allInvoices });
   return (
     <>
       <ProfilePage

@@ -1,12 +1,14 @@
 export const runtime = "nodejs";
 import { prisma } from "@/lib/db";
+import { invoiceitem } from "@/lib/generated/prisma";
 import { mailer } from "@/lib/mail";
 import PDFDocument from "pdfkit";
 
-export async function POST(_: Request, { params }: { params: { id: string } }) {
-  const id = Number(params.id);
+type Params = Promise<{ id: string }>;
+export async function POST(_: Request, { params }: { params: Params }) {
+  const id = Number((await params).id);
   const inv = await prisma.invoice.findUnique({
-    where: { id }, include: { client: true, items: true }
+    where: { id }, include: { client: true, invoiceitem: true }
   });
   if (!inv) return new Response("Not found", { status: 404 });
 
@@ -21,7 +23,7 @@ export async function POST(_: Request, { params }: { params: { id: string } }) {
     doc.fontSize(12).text(`Bill To: ${inv.client.name} <${inv.client.email}>`);
     doc.text(`Issue: ${inv.issueDate.toDateString()}  Due: ${inv.dueDate.toDateString()}`);
     doc.moveDown();
-    inv.items.forEach((it : { unitCents: number; quantity: number; currency: string; description: string; }) => {
+    inv.invoiceitem.forEach((it : invoiceitem) => {
       const amt = (it.unitCents * it.quantity) / 100;
       doc.text(`${it.description} × ${it.quantity}  -  ${inv.currency} ${amt.toFixed(2)}`);
     });

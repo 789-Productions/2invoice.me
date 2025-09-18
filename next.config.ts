@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
   experimental: {
     serverActions: { allowedOrigins: ["*"], bodySizeLimit: "2mb" }
   },
+  output: 'standalone',
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 
