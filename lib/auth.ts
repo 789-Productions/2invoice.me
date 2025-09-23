@@ -23,7 +23,7 @@ export const authConfig: NextAuthConfig = {
     // GoogleProvider({ clientId: "", clientSecret: "" }),
   ],
   callbacks: {
-    async jwt({ token, user, trigger, session }) {
+    async jwt({ token, user}) {
       if (user) {
         token.userId = user.id;
         token.email = user.email;
