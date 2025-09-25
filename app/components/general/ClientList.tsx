@@ -42,7 +42,8 @@ export default function ClientList({
             {/* if the client is selected, show their invoices */}
             {selectedClientList.includes(String(client.id)) && (
               <>
-                {clientInvoices[client.id].length > 0 ? (
+                {clientInvoices[client.id] &&
+                clientInvoices[client.id].length > 0 ? (
                   <>
                     <SmallHeader>Invoices for {client.name}</SmallHeader>
                     <ul className="mb-4 mt-2 space-y-2">

@@ -1,7 +1,5 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import { seedDatabase } from "../api/seed/seed";
-
 export default function HomeLocale() {
   const { locale } = useParams();
   const router = useRouter();
@@ -22,17 +20,6 @@ export default function HomeLocale() {
           </button>{" "}
           to try the demo.
         </p>
-        <p className="mt-8 flex items-center justify-center gap-2 text-slate-500 dark:text-slate-400">
-          Seed the demo user with this
-        </p>
-        <form action={seedDatabase}>
-          <button
-            type="submit"
-            className="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Seed Database
-          </button>
-        </form>
       </div>
     </main>
   );
