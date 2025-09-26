@@ -241,7 +241,11 @@ const InvoiceActions = ({
       <div className="relative flex items-center gap-x-3" ref={dropdownRef}>
         <OutsideActionButtons status={status} inv={inv} />
         <div className="flex-column ">
-          <button onClick={toggleDropdown} title="More options">
+          <button
+            className="cursor-pointer"
+            onClick={toggleDropdown}
+            title="More options"
+          >
             <Image
               src="/images/options.svg"
               alt="More"

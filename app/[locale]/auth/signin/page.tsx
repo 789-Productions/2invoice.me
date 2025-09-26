@@ -21,8 +21,14 @@ export default function SignInPage() {
         <Input name="password" type="password" placeholder="Password" />
         <Input type="hidden" name="locale" value={locale} />
         <LoginButton />
-        <RegisterButton locale={locale} />
-        {response && <p className="text-red-500">{response.message}</p>}
+        <p className="text-sm text-text">
+          Don't have an account?
+          <br />
+          <RegisterButton locale={locale} />
+        </p>
+        {response && (
+          <p className="text-red-500 font-bold">{response.message}</p>
+        )}
       </form>
     </main>
   );

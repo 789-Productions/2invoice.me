@@ -39,7 +39,7 @@ export default function EditInvoiceInfo({
         <select
           id="clientId"
           name="clientId"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:border-slate-600 dark:text-white"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-root dark:text-white"
         >
           {clients.map((c: Client) => (
             <option key={c.id} value={c.id}>
@@ -65,7 +65,7 @@ export default function EditInvoiceInfo({
           id="number"
           name="number"
           defaultValue={defaultValues.number}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:border-slate-600 dark:text-white"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-root dark:border-slate-600 dark:text-white"
         />
       </div>
 
@@ -76,7 +76,7 @@ export default function EditInvoiceInfo({
           id="currency"
           name="currency"
           defaultValue={defaultValues.currency}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:border-slate-600 dark:text-white"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-root dark:border-slate-600 dark:text-white"
         />
       </div>
 
@@ -87,7 +87,7 @@ export default function EditInvoiceInfo({
           id="issueDate"
           name="issueDate"
           defaultValue={defaultValues.issueDate}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:border-slate-600 dark:text-white"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-root dark:border-slate-600 dark:text-white"
         />
       </div>
 
@@ -98,7 +98,7 @@ export default function EditInvoiceInfo({
           id="dueDate"
           name="dueDate"
           defaultValue={defaultValues.dueDate}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:border-slate-600 dark:text-white"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-root dark:border-slate-600 dark:text-white"
         />
       </div>
     </section>
