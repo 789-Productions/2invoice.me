@@ -40,7 +40,10 @@ export default function SignUpPage() {
         {password.length > 0 && (
           <ul>
             {passwordErrorMessages.map((msg, index) => (
-              <li key={index} style={{ color: "red" }}>
+              <li
+                key={index}
+                className="text-red-500 text-sm list-disc list-inside font-bold font-mono"
+              >
                 {msg}
               </li>
             ))}

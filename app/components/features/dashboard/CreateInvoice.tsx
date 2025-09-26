@@ -24,7 +24,7 @@ export default function CreateInvoice({ clients }: { clients: Array<Client> }) {
         action={createInvoice}
         // Using a grid for a responsive form layout
       >
-        <div className="grid rounded mt-2 border-1 border-gray-600">
+        <div className="grid rounded mt-2 border-1 border-border bg-background">
           <div className="p-4">
             <EditInvoiceInfo invoice={null} clients={clients} />
           </div>

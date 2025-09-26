@@ -5,7 +5,7 @@ export default function HomeLocale() {
   const router = useRouter();
   return (
     // Main container to center the content on the page
-    <main className="flex min-h-screen flex-col items-center justify-center bg-slate-50 p-8 dark:bg-slate-900">
+    <main className="flex min-h-screen flex-col items-center justify-center p-8">
       <div className="max-w-md text-center">
         <h1 className="text-4xl font-bold tracking-tight text-slate-800 dark:text-slate-100 sm:text-5xl">
           Welcome!
