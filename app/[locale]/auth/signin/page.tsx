@@ -14,14 +14,14 @@ export default function SignInPage() {
   return (
     <main>
       <Header>Sign in</Header>
-      <form action={dispatch} className="flex flex-col gap-4 text-white mt-2">
+      <form action={dispatch} className="flex flex-col gap-4 mt-2">
         <Label htmlFor="email">Email</Label>
         <Input name="email" placeholder="Email" />
         <Label htmlFor="password">Password</Label>
         <Input name="password" type="password" placeholder="Password" />
         <Input type="hidden" name="locale" value={locale} />
         <LoginButton />
-        <p className="text-sm text-text">
+        <p className="text-sm">
           Don't have an account?
           <br />
           <RegisterButton locale={locale} />

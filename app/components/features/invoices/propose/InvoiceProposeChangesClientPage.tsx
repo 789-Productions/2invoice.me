@@ -2,9 +2,10 @@
 export const runtime = "nodejs";
 import Button from "@/app/components/ui/Button";
 import ControlledInvoiceItemsManager from "@/app/components/features/dashboard/ControlledInvoiceItemsManager";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { invoiceitem } from "@/lib/generated/prisma/wasm";
 import { sendConfirmChangesAction } from "../../../../[locale]/invoices/[token]/propose_changes/actions";
+import { SmallHeader } from "@/app/components/ui/Headers";
 
 type Item = {
   description: string;
@@ -66,6 +67,20 @@ export default function InvoiceProposeChangesClientPage({
 
   const oldItems = invoice.invoiceitem || [];
   const [items, setItems] = useState<Item[]>(oldItems);
+  const [totalPrice, setTotalPrice] = useState(invoice.totalCents || 0);
+
+  const fmt = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
+  useEffect(() => {
+    const newTotal = items.reduce(
+      (acc, item) => acc + item.quantity * item.unitCents,
+      0
+    );
+    setTotalPrice(newTotal);
+  }, [items]);
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-slate-50 p-8 dark:bg-slate-900 text-white">
       <h1 className="text-2xl font-bold text-center mb-4 text-yellow-500">
@@ -79,13 +94,16 @@ export default function InvoiceProposeChangesClientPage({
         {invoice.dueDate.toDateString()}
       </p>
       <ControlledInvoiceItemsManager items={items} onItemChange={setItems} />
-      {/*      <h2>Total: {fmt.format(invoice.totalCents / 100)}</h2>
-       */}
+      <SmallHeader>Adjusted Total: {fmt.format(totalPrice / 100)}</SmallHeader>
       <div className="flex flex-row items-center gap-4 mt-4">
         <Button className="mt-2" color="blue" onClick={onConfirmChanges}>
           Confirm Changes
         </Button>
-        <Button className="mt-2" color="red">
+        <Button
+          className="mt-2"
+          color="red"
+          onClick={() => window.history.back()}
+        >
           Cancel
         </Button>
       </div>

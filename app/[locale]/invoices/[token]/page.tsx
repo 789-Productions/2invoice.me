@@ -1,4 +1,5 @@
 export const runtime = "nodejs";
+import { Header } from "@/app/components/ui/Headers";
 import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
 
@@ -20,7 +21,7 @@ export default async function InvoicePublicPage({
   });
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-slate-50 p-8 dark:bg-slate-900 text-white">
+    <main className="flex min-h-screen flex-col items-center justify-center p-8 text-white">
       <h1 className="text-2xl font-bold text-center mb-4 text-yellow-500">
         Invoice #{invoice.number}
       </h1>
@@ -31,6 +32,7 @@ export default async function InvoicePublicPage({
         Issued: {invoice.issueDate.toDateString()} | Due:{" "}
         {invoice.dueDate.toDateString()}
       </p>
+      <Header className="mt-4">Invoice Items</Header>{" "}
       <ul className="list-disc pl-5 mt-4">
         {invoice.invoiceitem.map(
           (it: {
