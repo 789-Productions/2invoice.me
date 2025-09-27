@@ -19,8 +19,8 @@ export default async function LocaleLayout({
   const session = await auth();
   return (
     <html lang={locale}>
-      <body className="min-h-screen bg-root pb-20">
-        <nav className="flex items-center text-white justify-between p-4 shadow bg-background border-b border-border">
+      <body className="min-h-screen bg-root pb-20 text-white">
+        <nav className="flex items-center justify-between p-4 shadow bg-background border-b border-border">
           <Link href={`/${locale}`}>Home</Link>
           <Link href={`/${locale}/dashboard`}>Dashboard</Link>
           <ProfileDropdown session={session} locale={locale} />
