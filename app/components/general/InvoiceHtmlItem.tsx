@@ -21,7 +21,7 @@ const ViewActionButton = ({
       <a
         href={`${baseUrl}/${locale}/invoices/${inv.token}`}
         target="_blank"
-        className="font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
+        className="font-medium text-indigo-600 hover:text-indigo-400 dark:text-indigo-400 dark:hover:text-indigo-300"
       >
         View
       </a>
@@ -40,7 +40,7 @@ const EditActionButton = ({
   <>
     <a
       href={`${baseUrl}/${locale}/invoices/${inv.token}/edit`}
-      className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
+      className="font-medium text-green-600 hover:text-green-400"
     >
       Edit
     </a>
@@ -187,16 +187,15 @@ const MoreInvoiceActions = ({
     IN_PROGRESS: [
       { component: ViewActionButton, props: { baseUrl, locale, inv } },
       { component: ProposeChangesActionButton, props: { locale, inv } },
+      { component: CancelActionButton, props: { cancelInvoice, inv } },
     ],
     PENDING: [
       { component: ViewActionButton, props: { baseUrl, locale, inv } },
       { component: ProposeChangesActionButton, props: { locale, inv } },
       { component: CancelActionButton, props: { cancelInvoice, inv } },
-      { component: DeleteActionButton, props: { deleteInvoice, inv } },
     ],
     COMPLETED: [
       { component: ViewActionButton, props: { baseUrl, locale, inv } },
-      { component: DeleteActionButton, props: { deleteInvoice, inv } },
     ],
   };
   const moreActions = moreActionMap[status];
@@ -277,7 +276,7 @@ export default function InvoiceHtmlItem({ inv }: { inv: any }) {
   return (
     <li
       key={inv.id}
-      className="flex items-center justify-between rounded-lg bg-white p-4 shadow-sm dark:bg-slate-800"
+      className="flex items-center justify-between rounded-lg bg-white p-4 shadow-sm dark:bg-slate-800 border border-border"
     >
       <div>
         <div>
@@ -295,7 +294,7 @@ export default function InvoiceHtmlItem({ inv }: { inv: any }) {
             {" | "}
             {"Due: " + inv.dueDate.toDateString()}
           </p>
-          {differenceInDays > 0 && (
+          {differenceInDays > 0 && inv.status !== "COMPLETED" && (
             <p className="text-sm text-red-500"> ( Outstanding )</p>
           )}
           <p className="text-sm text-slate-600 dark:text-slate-300">

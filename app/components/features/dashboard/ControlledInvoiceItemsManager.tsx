@@ -70,7 +70,7 @@ export default function ControlledInvoiceItemsManager({
               handleItemChange(index, "description", e.target.value)
             }
             placeholder="Service or Product Description"
-            className="block w-full flex-[3] rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-slate-800 dark:text-slate-50 dark:ring-slate-700 dark:focus:ring-indigo-500"
+            className="block w-full flex-[3] rounded-md border-0 bg-root py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6  dark:text-white dark:ring-slate-700 dark:focus:ring-indigo-500"
           />
           <input
             type="number"
@@ -79,7 +79,7 @@ export default function ControlledInvoiceItemsManager({
             onChange={(e) =>
               handleItemChange(index, "quantity", e.target.value)
             }
-            className="block w-full flex-1 rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-slate-800 dark:text-slate-50 dark:ring-slate-700 dark:focus:ring-indigo-500"
+            className="block w-full flex-1 rounded-md border-0 bg-root py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:text-white dark:ring-slate-700 dark:focus:ring-indigo-500"
           />
           <input
             type="number"
@@ -88,14 +88,14 @@ export default function ControlledInvoiceItemsManager({
             onChange={(e) =>
               handleItemChange(index, "unitCents", e.target.value)
             }
-            className="block w-full flex-1 rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-slate-800 dark:text-slate-50 dark:ring-slate-700 dark:focus:ring-indigo-500"
+            className="block w-full flex-1 rounded-md border-0 bg-root py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:text-white dark:ring-slate-700 dark:focus:ring-indigo-500"
           />
 
           <button
             type="button"
             onClick={() => handleRemoveItem(index)}
             style={{ width: `${REMOVE_BUTTON_WIDTH}px` }}
-            className="rounded bg-transparent px-2 py-1 text-sm font-semibold text-red-600 shadow-sm transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/50"
+            className="rounded px-2 bg-transparent py-1 text-sm font-semibold text-red-600  transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/50"
           >
             Remove
           </button>
@@ -105,7 +105,7 @@ export default function ControlledInvoiceItemsManager({
       <button
         type="button"
         onClick={handleAddItem}
-        className="mt-2 self-start rounded-md bg-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
+        className="mt-2 self-start rounded-md bg-foreground px-3 py-1.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-300 dark:text-slate-200 dark:hover:bg-slate-600"
       >
         Add Item
       </button>
